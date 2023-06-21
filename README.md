@@ -1,3 +1,5 @@
+Colour scheme used: https://coolors.co/e63946-f1faee-a8dadc-457b9d-1d3557
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
