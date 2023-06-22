@@ -15,7 +15,6 @@ export default function Login() {
 
   async function handleSubmit() {
     const response = await login(username, password);
-    console.log("response", response);
     if (response.data.success) {
       localStorage.setItem("jwt", response.data.token);
 

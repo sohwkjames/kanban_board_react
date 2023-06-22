@@ -7,7 +7,8 @@ import AuthContext from "./context/authContext";
 import DispatchAuthContext from "./context/dispatchAuthContext";
 import Header from "./components/layout/Header";
 import Landing from "./components/landing/Landing";
-import Admin from "./components/admin/admin";
+import Admin from "./components/admin/Admin";
+import CreateUser from "./components/admin/CreateUser";
 
 function App() {
   const [state, dispatch] = useReducer(authReducer, initialReducerState);
@@ -19,9 +20,11 @@ function App() {
           <Header />
 
           <Routes>
+            <Route path="/" element={<Landing />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/landing" element={<Landing />}></Route>
             <Route path="/admin" element={<Admin />}></Route>
+            <Route path="/admin/create" element={<CreateUser />}></Route>
           </Routes>
         </DispatchAuthContext.Provider>
       </AuthContext.Provider>
