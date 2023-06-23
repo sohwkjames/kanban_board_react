@@ -8,6 +8,7 @@ export function authReducer(state, action) {
       };
     case "logout":
       return {
+        ...state,
         username: "",
         userGroup: "",
         isActive: 0,

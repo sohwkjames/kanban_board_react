@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateUser(props) {
-  const { setCreateUserVisible } = props;
+  const { handleClose } = props;
   const [userGroups, setUserGroups] = useState([]);
   useEffect(() => {
     console.log("Firing createUser useEffect");
@@ -35,7 +35,7 @@ export default function CreateUser(props) {
 
     if (result.success) {
       toast.success("User created successfully");
-      setCreateUserVisible(false);
+      handleClose();
     } else {
       toast.error(result.message, { theme: "colored" });
     }
@@ -43,7 +43,7 @@ export default function CreateUser(props) {
   const onFinishFailed = (errorInfo) => {};
 
   function onCancel() {
-    setCreateUserVisible(false);
+    handleClose();
   }
 
   return (
@@ -92,17 +92,13 @@ export default function CreateUser(props) {
                   <Select.Option value={groupname}>{groupname}</Select.Option>
                 );
               })}
-              {/* <Select.Option value="1">one</Select.Option>
-              <Select.Option value="2">two</Select.Option>
-              <Select.Option value="3">Demo</Select.Option> */}
             </Select>
           </Form.Item>
 
           <Form.Item label="Active" name="isActive">
             <Select>
-              <Select.Option value="4">Active</Select.Option>
-              <Select.Option value="5">Inactive</Select.Option>
-              <Select.Option value="6">Demo</Select.Option>
+              <Select.Option value="1">Active</Select.Option>
+              <Select.Option value="0">Inactive</Select.Option>
             </Select>
           </Form.Item>
           <Space>
@@ -112,9 +108,7 @@ export default function CreateUser(props) {
                 span: 16,
               }}
             >
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
+              <Button onClick={onCancel}>Cancel</Button>
             </Form.Item>
             <Form.Item
               wrapperCol={{
@@ -122,7 +116,9 @@ export default function CreateUser(props) {
                 span: 16,
               }}
             >
-              <Button onClick={onCancel}>Cancel</Button>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
             </Form.Item>
           </Space>
         </Form>

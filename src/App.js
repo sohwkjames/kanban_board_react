@@ -12,7 +12,7 @@ import CreateUser from "./components/admin/CreateUser";
 
 function App() {
   const [state, dispatch] = useReducer(authReducer, initialReducerState);
-
+  console.log("App state", state);
   return (
     <div>
       <AuthContext.Provider value={state}>
@@ -20,10 +20,9 @@ function App() {
           <Header />
 
           <Routes>
-            <Route path="/" element={<Landing />}></Route>
-            <Route path="/login" element={<Login />}></Route>
+            <Route path="/" element={<Login />}></Route>
             <Route path="/landing" element={<Landing />}></Route>
-            <Route path="/admin" element={<Admin />}></Route>
+            <Route path="/admin/usermanagement" element={<Admin />}></Route>
           </Routes>
         </DispatchAuthContext.Provider>
       </AuthContext.Provider>

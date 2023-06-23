@@ -21,10 +21,14 @@ export default function Login() {
       // dispatch to context
       dispatch({
         type: "login",
-        payload: { userGroup: response.data.userGroup },
+        payload: { userGroup: response.data.userGroup, username: username },
       });
 
-      navigate(response.data.userGroup === "admin" ? "/admin" : "/landing");
+      navigate(
+        response.data.userGroup === "admin"
+          ? "/admin/usermanagement"
+          : "/landing"
+      );
     } else {
       setIsError(true);
       setPassword("");
