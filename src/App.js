@@ -24,7 +24,6 @@ function App() {
             <Route path="/login" element={<Login />}></Route>
             <Route path="/landing" element={<Landing />}></Route>
             <Route path="/admin" element={<Admin />}></Route>
-            <Route path="/admin/create" element={<CreateUser />}></Route>
           </Routes>
         </DispatchAuthContext.Provider>
       </AuthContext.Provider>

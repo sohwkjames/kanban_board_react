@@ -9,6 +9,5 @@ export default async function getAllUserGroups() {
     token ? { headers: { authorization: "Bearer token " + token } } : {}
   );
 
-  console.log("getAllUserGroup response", response.data);
   return response.data;
 }

@@ -5,19 +5,28 @@ import UserList from "./UserList";
 import { Button } from "antd";
 import "./admin.css";
 import { useNavigate } from "react-router-dom";
+import CreateUser from "./CreateUser";
 
 export default function Admin() {
   const [showWarning, setShowWarning] = useState();
   const [warningMessage, setWarningMessage] = useState();
   const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
-
+  const [createUserVisible, setCreateUserVisible] = useState(false);
   useEffect(() => {
+    console.log("Firing Admin useEffect");
+
     async function getUsersOnRender() {
       const response = await getUserList();
       console.log("Result", response);
       if (response.success) {
-        setUsers(response.data);
+        const dataWithKey = response.data.map((user) => {
+          return {
+            ...user,
+            key: user.username,
+          };
+        });
+
+        setUsers(dataWithKey);
       } else {
         setShowWarning(true);
         setWarningMessage(response.message);
@@ -25,21 +34,7 @@ export default function Admin() {
     }
 
     getUsersOnRender();
-
-    // async function checkIsAdmin() {
-    //   const result = await checkUserGroup("admin");
-    //   if (result.success) {
-    //     setShowWarning(false);
-
-    //   } else {
-    //     setShowWarning(true);
-    //     setWarningMessage(result.message);
-    //   }
-    //   // return result;
-    // }
-
-    // checkIsAdmin();
-  }, []);
+  }, [createUserVisible]);
 
   if (showWarning) {
     return (
@@ -51,17 +46,24 @@ export default function Admin() {
   // For non admin users, should block users from acessing.
   return (
     <div>
-      <div className="info-container">
-        <h3>User Overview</h3>
-        <Button
-          onClick={() => navigate("/admin/create")}
-          type="primary"
-          size="large"
-        >
-          Create User
-        </Button>
-      </div>
-      <UserList users={users} />
+      {!createUserVisible && (
+        <div>
+          <div className="info-container">
+            <h3>User Overview</h3>
+            <Button
+              onClick={() => setCreateUserVisible(true)}
+              type="primary"
+              size="large"
+            >
+              Create User
+            </Button>
+          </div>
+          <UserList users={users} />
+        </div>
+      )}
+      {createUserVisible && (
+        <CreateUser setCreateUserVisible={setCreateUserVisible} />
+      )}
     </div>
   );
 }
