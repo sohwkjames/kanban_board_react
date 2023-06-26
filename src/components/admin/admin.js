@@ -7,6 +7,9 @@ import "./admin.css";
 import CreateUser from "./CreateUser";
 import EditUser from "./EditUser";
 import { ToastContainer, toast } from "react-toastify";
+import UserGroupWidget from "./UserGroups/UserGroupWidget";
+import Page from "../page/Page";
+import Spinner from "../layout/Spinner";
 
 export default function Admin() {
   const [showWarning, setShowWarning] = useState();
@@ -16,6 +19,7 @@ export default function Admin() {
   const [editUserVisible, setEditUserVisible] = useState(false);
   const [userListVisible, setUserListVisible] = useState(true);
   const [selectedUser, setSelectedUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     console.log("Firing Admin useEffect");
@@ -32,9 +36,11 @@ export default function Admin() {
         });
 
         setUsers(dataWithKey);
+        setLoading(false);
       } else {
         setShowWarning(true);
         setWarningMessage(response.message);
+        setLoading(false);
       }
     }
 
@@ -63,6 +69,10 @@ export default function Admin() {
     }
   }
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   // For non admin users, should block users from acessing.
   if (showWarning) {
     return (
@@ -72,35 +82,40 @@ export default function Admin() {
     );
   }
   return (
-    <div>
-      {userListVisible && (
-        <div>
-          <div className="info-container">
-            <h3>User Overview</h3>
-            <Button
-              onClick={() => {
-                setUserListVisible(false);
-                setCreateUserVisible(true);
-              }}
-              type="primary"
-              size="large"
-            >
-              Create User
-            </Button>
+    <Page>
+      <div>
+        {userListVisible && (
+          <div>
+            <div className="info-container">
+              <h3>User Overview</h3>
+              <div className="controls">
+                <Button
+                  onClick={() => {
+                    setUserListVisible(false);
+                    setCreateUserVisible(true);
+                  }}
+                  type="primary"
+                  size="large"
+                >
+                  Create User
+                </Button>
+                <UserGroupWidget />
+              </div>
+            </div>
+            <UserList users={users} handleSelectUser={handleSelectUser} />
           </div>
-          <UserList users={users} handleSelectUser={handleSelectUser} />
-        </div>
-      )}
-      {createUserVisible && <CreateUser handleClose={handleClose} />}
+        )}
+        {createUserVisible && <CreateUser handleClose={handleClose} />}
 
-      {editUserVisible && (
-        <EditUser
-          user={selectedUser}
-          handleClose={handleClose}
-          createToast={createToast}
-        />
-      )}
-      <ToastContainer position="bottom-right" theme="colored" />
-    </div>
+        {editUserVisible && (
+          <EditUser
+            user={selectedUser}
+            handleClose={handleClose}
+            createToast={createToast}
+          />
+        )}
+        <ToastContainer position="bottom-right" theme="colored" />
+      </div>
+    </Page>
   );
 }

@@ -1,0 +1,14 @@
+.usergroup-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.usergroup-list {
+  height: 100px;
+  overflow: hidden;
+  overflow-y: scroll;
+  border: 1px dotted black;
+  margin-right: 1em;
+  margin-left: 1em;
+  width: 200px;
+}

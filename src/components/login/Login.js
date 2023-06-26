@@ -5,6 +5,7 @@ import { Input, Button } from "antd";
 import { colourScheme } from "../../utils/colorScheme";
 import { useNavigate } from "react-router-dom";
 import DispatchAuthContext from "../../context/dispatchAuthContext";
+import Page from "../page/Page";
 
 export default function Login() {
   const dispatch = useContext(DispatchAuthContext);
@@ -36,19 +37,23 @@ export default function Login() {
   }
 
   return (
-    <div className="">
-      <h1>Login</h1>
+    <Page>
       <div className="">
-        <label>Username</label>
+        <h1>Login</h1>
+        <div className="">
+          <label>Username</label>
 
-        <Input onChange={(e) => setUsername(e.target.value)}></Input>
-        <label>Password</label>
-        <Input onChange={(e) => setPassword(e.target.value)}></Input>
+          <Input onChange={(e) => setUsername(e.target.value)}></Input>
+          <label>Password</label>
+          <Input onChange={(e) => setPassword(e.target.value)}></Input>
+        </div>
+        <Button onClick={handleSubmit}>Submit</Button>
+        {isError && (
+          <p style={{ color: colourScheme.red }}>
+            Invalid username or password
+          </p>
+        )}
       </div>
-      <Button onClick={handleSubmit}>Submit</Button>
-      {isError && (
-        <p style={{ color: colourScheme.red }}>Invalid username or password</p>
-      )}
-    </div>
+    </Page>
   );
 }

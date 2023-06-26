@@ -1,6 +1,6 @@
 import { Form, Input, Button, Select, Space } from "antd";
 import { useEffect, useState } from "react";
-import getAllUserGroups from "../../urls/userGroups";
+import { getAllUserGroups } from "../../urls/userGroups";
 import { createNewUser } from "../../urls/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
