@@ -6,18 +6,25 @@ import { useContext, useEffect, useState } from "react";
 import DispatchAuthContext from "../../context/dispatchAuthContext";
 import AuthContext from "../../context/authContext";
 import { checkUserGroup, getCurrentUserDetails } from "../../urls/auth";
+import { useParams } from "react-router-dom";
 
 export default function Header() {
   const dispatch = useContext(DispatchAuthContext);
   const context = useContext(AuthContext);
-  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
+  // Handles persist 'user management' button when admin user is logged in and user refresh page
   useEffect(() => {
     async function fireGetCurrentUserDetails() {
-      const result = await getCurrentUserDetails();
-      if (result?.success) {
-        dispatch({ type: "setUser", payload: result.data });
+      const response = await checkUserGroup("admin");
+      console.log("header response", response);
+      if (response?.success) {
+        console.log("Dispatching with isAdmin true");
+        dispatch({ type: "setAdmin", payload: { isAdmin: true } });
+      } else {
+        console.log("Dispatching with isAdmin false");
+
+        dispatch({ type: "setAdmin", payload: { isAdmin: false } });
       }
     }
 
@@ -32,17 +39,25 @@ export default function Header() {
 
   return (
     <div style={{ background: colourScheme.lightBlue }} className="container">
-      <div>Task Management System</div>
+      <h2 onClick={() => navigate("/landing")} style={{ cursor: "pointer" }}>
+        Task Management System
+      </h2>
       <div className="button-container">
-        {context.userGroup === "admin" && (
-          <Button onClick={() => navigate("/admin/usermanagement")}>
+        {context.isAdmin && (
+          <Button
+            type="primary"
+            onClick={() => navigate("/admin/usermanagement")}
+          >
             User Management
           </Button>
         )}
-        <Button>Button 2</Button>
-        <Button onClick={handleLogout}>Logout</Button>
+        <Button type="primary" onClick={() => navigate("/profile/manage")}>
+          Profile
+        </Button>
+        <Button type="primary" onClick={handleLogout}>
+          Logout
+        </Button>
       </div>
-      {/* {context.username ? "Hi " + context.username : ""} */}
     </div>
   );
 }

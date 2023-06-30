@@ -2,7 +2,7 @@ import { Button, Form, Input, Select, Space } from "antd";
 import { useEffect, useState } from "react";
 import { getAllUserGroups } from "../../urls/userGroups";
 import { ToastContainer, toast } from "react-toastify";
-import updateUser from "../../urls/users";
+import { updateUser } from "../../urls/users";
 
 export default function EditUser(props) {
   const { user, handleClose, createToast } = props;
@@ -42,8 +42,6 @@ export default function EditUser(props) {
 
   return (
     <div>
-      This is Edit User
-      <div>Selected user is: {user.username}</div>
       <Form
         name="editUser"
         initialValues={{

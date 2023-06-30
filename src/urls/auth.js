@@ -32,12 +32,12 @@ export async function checkUserGroup(groupname) {
   return response.data;
 }
 
-export async function getCurrentUserDetails() {
+export async function getCurrentUserDetails(userGroup) {
   // Attach jwt into header
   const token = localStorage.getItem("jwt");
   if (!token) return;
 
-  const response = await axios.get(baseUrl + "/get_current_user", {
+  const response = await axios.get(baseUrl + "/user", {
     headers: {
       authorization: "Bearer token " + token,
     },
@@ -55,40 +55,6 @@ export async function getUserList() {
       },
     }
   );
-
-  return response.data;
-}
-
-export async function createNewUser(
-  username,
-  email,
-  password,
-  isActive,
-  userGroup
-) {
-  // Must send jwt with header
-  const token = localStorage.getItem("jwt");
-  let response;
-  if (token) {
-    response = await axios.post(
-      baseUrl + "/user",
-      { username, email, password, isActive, userGroup },
-      {
-        headers: {
-          authorization: "Bearer token " + token,
-        },
-      }
-    );
-  } else {
-    // Sending without header
-    response = await axios.post(baseUrl + "/checkusergroup", {
-      username,
-      email,
-      password,
-      isActive,
-      userGroup,
-    });
-  }
 
   return response.data;
 }

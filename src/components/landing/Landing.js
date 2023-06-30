@@ -8,7 +8,7 @@ export default function Landing() {
 
   return (
     <Page>
-      <div>Landing page for both admin and non admin users.</div>
+      <div>Welcome to the Task Management System!</div>
     </Page>
   );
 }

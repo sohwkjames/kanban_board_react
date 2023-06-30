@@ -1,14 +1,16 @@
 import { Form, Input, Button, Select, Space } from "antd";
 import { useEffect, useState } from "react";
 import { getAllUserGroups } from "../../urls/userGroups";
-import { createNewUser } from "../../urls/auth";
+import { createNewUser } from "../../urls/users";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useForm } from "antd/es/form/Form";
 
 export default function CreateUser(props) {
   const { handleClose } = props;
   const [userGroups, setUserGroups] = useState([]);
+  const [form] = useForm();
+
   useEffect(() => {
     console.log("Firing createUser useEffect");
 
@@ -16,7 +18,9 @@ export default function CreateUser(props) {
       const result = await getAllUserGroups();
 
       if (result.success) {
-        const tmp = result.userGroups.map((record) => record.groupname);
+        const tmp = result.userGroups.map((record) => {
+          return { label: record.groupname, value: record.groupname };
+        });
         setUserGroups(tmp);
       }
     }
@@ -25,6 +29,7 @@ export default function CreateUser(props) {
   }, []);
 
   async function submitForm(values) {
+    console.log("Submit form values", values);
     const result = await createNewUser(
       values.username,
       values.email,
@@ -35,7 +40,9 @@ export default function CreateUser(props) {
 
     if (result.success) {
       toast.success("User created successfully");
-      handleClose();
+      // handleClose();
+      // Clear fields
+      form.resetFields();
     } else {
       toast.error(result.message, { theme: "colored" });
     }
@@ -50,6 +57,7 @@ export default function CreateUser(props) {
     <div className="create-user-container">
       <div>
         <Form
+          form={form}
           name="basic"
           size="medium"
           onFinish={submitForm}
@@ -86,16 +94,31 @@ export default function CreateUser(props) {
             <Input.Password />
           </Form.Item>
           <Form.Item label="User Group" name="userGroup">
-            <Select>
+            {/* <Select>
               {userGroups.map((groupname) => {
                 return (
                   <Select.Option value={groupname}>{groupname}</Select.Option>
                 );
               })}
-            </Select>
+            </Select> */}
+            <Select
+              mode="tags"
+              placeholder="Tags mode"
+              style={{ width: "100%" }}
+              options={userGroups}
+            ></Select>
           </Form.Item>
 
-          <Form.Item label="Active" name="isActive">
+          <Form.Item
+            label="Active"
+            name="isActive"
+            rules={[
+              {
+                required: true,
+                message: "Please select active status",
+              },
+            ]}
+          >
             <Select>
               <Select.Option value="1">Active</Select.Option>
               <Select.Option value="0">Inactive</Select.Option>

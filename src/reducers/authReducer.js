@@ -1,23 +1,35 @@
 export function authReducer(state, action) {
   switch (action.type) {
     case "login":
+      console.log("login action firing");
       return {
         ...state,
         username: action.payload.username,
-        userGroup: action.payload.userGroup,
+        userGroups: action.payload.userGroups,
+        isAdmin: action.payload.isAdmin,
       };
+
+    case "setAdmin":
+      console.log("setadmin action firing, payload is ", action.payload);
+      return {
+        ...state,
+        isAdmin: action.payload.isAdmin,
+      };
+
     case "logout":
       return {
         ...state,
         username: "",
-        userGroup: "",
+        userGroups: [],
         isActive: 0,
         email: "",
+        isAdmin: false,
       };
     case "setUser":
       return {
+        ...state,
         username: action.payload.username,
-        userGroup: action.payload.userGroup,
+        userGroups: action.payload.userGroups,
         isActive: action.payload.isActive,
         email: action.payload.email,
       };
@@ -28,5 +40,6 @@ export function authReducer(state, action) {
 
 export const initialReducerState = {
   username: "",
-  userGroup: "",
+  userGroups: [],
+  isAdmin: false,
 };

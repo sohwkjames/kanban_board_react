@@ -22,8 +22,6 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("Firing Admin useEffect");
-
     async function getUsersOnRender() {
       const response = await getUserList();
       console.log("Result", response);
