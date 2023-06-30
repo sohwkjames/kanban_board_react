@@ -4,7 +4,14 @@ export default function UserList({ users, handleSelectUser }) {
   const columns = [
     { title: "username", dataIndex: "username", key: "username" },
     { title: "email", dataIndex: "email", key: "email" },
-    { title: "user group", dataIndex: "userGroup", key: "userGroup" },
+    {
+      title: "User groups",
+      dataIndex: "userGroups",
+      key: "userGroups",
+      render: (arr) => {
+        return arr.join(", ");
+      },
+    },
     {
       title: "status",
       dataIndex: "isActive",
