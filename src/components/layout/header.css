@@ -5,6 +5,16 @@
   padding: 0;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: row;
+}
+
 .button-container > * {
-  margin-left: 2px;
+  padding: 1em;
+  cursor: pointer;
+}
+
+.nav-button-underline {
+  text-decoration: underline;
 }

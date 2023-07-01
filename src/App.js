@@ -9,6 +9,7 @@ import Header from "./components/layout/Header";
 import Landing from "./components/landing/Landing";
 import Admin from "./components/admin/Admin";
 import CreateUser from "./components/admin/CreateUser";
+import Profile from "./components/profile/Profile";
 
 function App() {
   const [state, dispatch] = useReducer(authReducer, initialReducerState);
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={<Login />}></Route>
             <Route path="/landing" element={<Landing />}></Route>
             <Route path="/admin/usermanagement" element={<Admin />}></Route>
+            <Route path="/profile" element={<Profile />}></Route>
           </Routes>
         </DispatchAuthContext.Provider>
       </AuthContext.Provider>

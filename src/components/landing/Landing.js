@@ -9,6 +9,8 @@ export default function Landing() {
   return (
     <Page>
       <div>Welcome to the Task Management System!</div>
+
+      {/* <h3>Proceed to login</h3> */}
     </Page>
   );
 }

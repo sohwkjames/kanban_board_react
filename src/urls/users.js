@@ -40,7 +40,7 @@ export async function updateUser(
   password,
   email,
   isActive,
-  userGroup
+  userGroups
 ) {
   const token = localStorage.getItem("jwt");
   let response;
@@ -60,7 +60,7 @@ export async function updateUser(
       password,
       email,
       isActive,
-      userGroup,
+      userGroups,
     },
     requestHeader
   );

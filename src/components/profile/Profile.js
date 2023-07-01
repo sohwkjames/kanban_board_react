@@ -52,7 +52,7 @@ export default function Profile() {
   }
 
   if (showWarning) {
-    return UnverifiedUser("You are not allowd to view this resource.");
+    return UnverifiedUser("You are not allowed to view this resource.");
   }
 
   if (loading) {
@@ -62,7 +62,7 @@ export default function Profile() {
   return (
     <Page>
       <Form
-        {...layout}
+        // {...layout}
         form={form}
         name="editUser"
         onFinish={onFinish}
@@ -72,19 +72,12 @@ export default function Profile() {
           <Input disabled={true} />
         </Form.Item>
 
-        <Form.Item label="Email" name="email" rules={[{ required: true }]}>
+        <Form.Item label="Email" name="email" rules={[{ type: "email" }]}>
           <Input />
         </Form.Item>
 
-        <Form.Item
-          label="New Password"
-          name="password"
-          rules={[
-            { required: true, message: "Please input your password!" },
-            {},
-          ]}
-        >
-          <Input.Password />
+        <Form.Item label="New Password" name="password">
+          <Input.Password placeholder="Leave blank to not update password" />
         </Form.Item>
 
         {/* <Form.Item label="User Group" name="userGroup">

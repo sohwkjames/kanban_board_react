@@ -56,6 +56,7 @@ export default function CreateUser(props) {
   return (
     <div className="create-user-container">
       <div>
+        <h2>Create User</h2>
         <Form
           form={form}
           name="basic"

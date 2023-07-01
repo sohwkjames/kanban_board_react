@@ -86,6 +86,7 @@ export default function Admin() {
           <div>
             <div className="info-container">
               <h3>User Overview</h3>
+
               <div className="controls">
                 <Button
                   onClick={() => {

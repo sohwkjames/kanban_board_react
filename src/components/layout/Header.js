@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import "./header.css";
 import { colourScheme } from "../../utils/colorScheme";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import DispatchAuthContext from "../../context/dispatchAuthContext";
 import AuthContext from "../../context/authContext";
@@ -12,6 +12,8 @@ export default function Header() {
   const dispatch = useContext(DispatchAuthContext);
   const context = useContext(AuthContext);
   const navigate = useNavigate();
+  const [selectedTab, setSelectedTab] = useState("");
+  const location = useLocation();
 
   // Handles persist 'user management' button when admin user is logged in and user refresh page
   useEffect(() => {
@@ -44,19 +46,24 @@ export default function Header() {
       </h2>
       <div className="button-container">
         {context.isAdmin && (
-          <Button
-            type="primary"
+          <div
+            className="nav-button"
             onClick={() => navigate("/admin/usermanagement")}
           >
             User Management
-          </Button>
+          </div>
         )}
-        <Button type="primary" onClick={() => navigate("/profile/manage")}>
+        <div
+          className={
+            "nav-button" + location.pathname === "/profile" ? "-underline" : ""
+          }
+          onClick={() => navigate("/profile")}
+        >
           Profile
-        </Button>
-        <Button type="primary" onClick={handleLogout}>
+        </div>
+        <div className="nav-button" onClick={handleLogout}>
           Logout
-        </Button>
+        </div>
       </div>
     </div>
   );

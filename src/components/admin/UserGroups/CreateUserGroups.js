@@ -8,6 +8,10 @@ export default function CreateUserGroups({ setUserGroups, updateParentData }) {
   const [groupName, setGroupName] = useState("");
 
   async function handleAddGroup() {
+    if (!groupName.length) {
+      toast.error("Group name cannot be empty");
+      return;
+    }
     const response = await addUserGroup(groupName);
     console.log("james response is", response);
     if (response.success) {
@@ -21,6 +25,7 @@ export default function CreateUserGroups({ setUserGroups, updateParentData }) {
   return (
     <div className="createusergroups-container">
       {/* <input></input> */}
+      <p>Create User Group</p>
       <Input onChange={(e) => setGroupName(e.target.value)}></Input>
       <Button onClick={handleAddGroup}>Add group</Button>
       <ToastContainer position="bottom-right" theme="colored" />
