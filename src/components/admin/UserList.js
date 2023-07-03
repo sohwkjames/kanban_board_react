@@ -1,5 +1,4 @@
 import { Button, Space, Table } from "antd";
-
 export default function UserList({ users, handleSelectUser }) {
   const columns = [
     { title: "username", dataIndex: "username", key: "username" },
@@ -36,7 +35,7 @@ export default function UserList({ users, handleSelectUser }) {
     //     },
     //   }}
     // >
-    <Table dataSource={users} columns={columns} />
+    <Table dataSource={users} columns={columns} size="small" />
     // </ConfigProvider>
   );
 }

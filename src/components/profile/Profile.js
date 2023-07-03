@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react";
-import AuthContext from "../../context/authContext";
+import { useEffect, useState } from "react";
 import { Button, Form, Input, Select, Space } from "antd";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useForm } from "antd/es/form/Form";
-import { getUser } from "../../urls/users";
+import { getUser, updateUserProfile } from "../../urls/users";
 import UnverifiedUser from "../unverifieduser/UnverifiedUser";
 import Spinner from "../layout/Spinner";
 import Page from "../page/Page";
 import { colourScheme } from "../../utils/colorScheme";
+import { useNavigate } from "react-router-dom";
 
 const layout = {
   labelCol: { span: 6 },
@@ -19,6 +19,7 @@ export default function Profile() {
   const [showWarning, setShowWarning] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showErr, setShowErr] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // hit the get user details api
@@ -41,14 +42,21 @@ export default function Profile() {
     fireApi();
   }, []);
 
-  function onFinish(values) {
+  async function onFinish(values) {
     // Hit the update api
-
-    console.log("finish, values", values);
+    const { email, password } = values;
+    console.log(values);
+    const result = await updateUserProfile(email, password);
+    console.log("Result is", result);
+    if (result.success) {
+      toast.success("User updated successfully");
+    } else {
+      toast.error(result.message);
+    }
   }
 
   function handleClose() {
-    console.log("Closing");
+    navigate("/landing");
   }
 
   if (showWarning) {

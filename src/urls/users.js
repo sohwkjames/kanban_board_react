@@ -68,6 +68,30 @@ export async function updateUser(
   return response.data;
 }
 
+export async function updateUserProfile(email, password) {
+  const token = localStorage.getItem("jwt");
+  let response;
+  let requestHeader;
+  if (token) {
+    requestHeader = {
+      headers: {
+        authorization: "Bearer token " + token,
+      },
+    };
+  }
+
+  response = await axios.put(
+    baseUrl + "/userprofile",
+    {
+      password,
+      email,
+    },
+    requestHeader
+  );
+
+  return response.data;
+}
+
 export async function getUser() {
   const token = localStorage.getItem("jwt");
   let requestHeader;
