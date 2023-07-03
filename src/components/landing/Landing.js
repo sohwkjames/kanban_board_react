@@ -4,7 +4,6 @@ import Page from "../page/Page";
 
 export default function Landing() {
   const context = useContext(AuthContext);
-  console.log("landing context", context);
 
   return (
     <Page>

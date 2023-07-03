@@ -6,7 +6,6 @@ import { updateUser } from "../../urls/users";
 import { useForm } from "antd/es/form/Form";
 
 export default function EditUser(props) {
-  console.log("Edituser props", props);
   const { user, handleClose, createToast } = props;
   const [userGroupOptions, setUserGroupOptions] = useState([]);
   const [form] = useForm();
@@ -14,13 +13,11 @@ export default function EditUser(props) {
   useEffect(() => {
     async function fireApi() {
       const result = await getAllUserGroups();
-      console.log("result is", result);
       if (result.success) {
         const tmp = result.userGroups.map((group) => {
           return { label: group.groupname, value: group.groupname };
         });
 
-        console.log("tmp is", tmp);
         setUserGroupOptions(tmp);
       }
     }
@@ -38,7 +35,6 @@ export default function EditUser(props) {
 
   async function onFinish(values) {
     let { username, email, password, isActive, selectedUserGroups } = values;
-    console.log("onFinish results", values);
 
     if (isActive === "Active") {
       isActive = 1;

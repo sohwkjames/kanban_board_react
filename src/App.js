@@ -13,7 +13,6 @@ import Profile from "./components/profile/Profile";
 
 function App() {
   const [state, dispatch] = useReducer(authReducer, initialReducerState);
-  console.log("App state", state);
 
   return (
     <div>

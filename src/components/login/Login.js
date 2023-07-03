@@ -1,4 +1,4 @@
-import { useContext, useReducer, useState } from "react";
+import { useContext, useState } from "react";
 import "./login.css";
 import { checkUserGroup, login } from "../../urls/auth";
 import { Input, Button } from "antd";
@@ -6,6 +6,7 @@ import { colourScheme } from "../../utils/colorScheme";
 import { useNavigate } from "react-router-dom";
 import DispatchAuthContext from "../../context/dispatchAuthContext";
 import Page from "../page/Page";
+import { getUser } from "../../urls/users";
 
 export default function Login() {
   const dispatch = useContext(DispatchAuthContext);
@@ -24,15 +25,14 @@ export default function Login() {
       const isAdminResponse = await checkUserGroup("admin");
       console.log("isAdmin", isAdminResponse);
 
-      // dispatch to context
-      dispatch({
-        type: "login",
-        payload: {
-          userGroups: response.data.userGroups,
-          username: username,
-          isAdmin: isAdminResponse.success,
-        },
-      });
+      const isUserResponse = await getUser();
+      console.log("isUserResponse", isUserResponse);
+      if (isUserResponse.success) {
+        dispatch({
+          type: "setUser",
+          payload: { ...isUserResponse.data, isAdmin: isAdminResponse.success },
+        });
+      }
 
       setLoading(false);
 

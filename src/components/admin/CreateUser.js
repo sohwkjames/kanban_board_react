@@ -12,8 +12,6 @@ export default function CreateUser(props) {
   const [form] = useForm();
 
   useEffect(() => {
-    console.log("Firing createUser useEffect");
-
     async function fireApi() {
       const result = await getAllUserGroups();
 
@@ -29,7 +27,6 @@ export default function CreateUser(props) {
   }, []);
 
   async function submitForm(values) {
-    console.log("Submit form values", values);
     const result = await createNewUser(
       values.username,
       values.email,

@@ -24,7 +24,6 @@ export default function Admin() {
   useEffect(() => {
     async function getUsersOnRender() {
       const response = await getUserList();
-      console.log("Result", response);
       if (response.success) {
         const dataWithKey = response.data.map((user) => {
           return {
@@ -46,7 +45,6 @@ export default function Admin() {
   }, [userListVisible]);
 
   function handleClose() {
-    console.log("fire handleclose");
     setCreateUserVisible(false);
     setEditUserVisible(false);
     setUserListVisible(true);
