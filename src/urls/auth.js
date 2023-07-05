@@ -6,11 +6,6 @@ export async function login(username, password) {
   return result;
 }
 
-export async function testingBackend() {
-  const result = await axios.get(baseUrl + "/testing");
-  return result;
-}
-
 export async function checkUserGroup(groupname) {
   // Attach jwt into header
   const token = localStorage.getItem("jwt");

@@ -1,7 +1,6 @@
 export function authReducer(state, action) {
   switch (action.type) {
     case "login":
-      console.log("Firing log in, before state is", state, action);
       return {
         ...state,
         username: action.payload.username,
@@ -11,8 +10,6 @@ export function authReducer(state, action) {
       };
 
     case "setAdmin":
-      console.log("Firing set admin, before state is", state, action);
-
       return {
         ...state,
         isAdmin: action.payload.isAdmin,
@@ -28,8 +25,6 @@ export function authReducer(state, action) {
         isAdmin: false,
       };
     case "setUser":
-      console.log("Firing set user, before state is", state, action);
-
       return {
         ...state,
         username: action.payload.username,

@@ -18,18 +18,13 @@ export default function Header() {
   useEffect(() => {
     async function fireGetCurrentUserDetails() {
       const isAdminResponse = await checkUserGroup("admin");
-      console.log("isAdminResponse", isAdminResponse);
       if (isAdminResponse?.success) {
-        console.log("Dispatching with isAdmin true");
         dispatch({ type: "setAdmin", payload: { isAdmin: true } });
       } else {
-        console.log("Dispatching with isAdmin false");
-
         dispatch({ type: "setAdmin", payload: { isAdmin: false } });
       }
 
       const isUserResponse = await getUser();
-      console.log("isUserResponse", isUserResponse);
       if (isUserResponse.success) {
         dispatch({
           type: "setUser",

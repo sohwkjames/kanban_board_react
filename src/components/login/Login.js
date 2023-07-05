@@ -23,10 +23,7 @@ export default function Login() {
       localStorage.setItem("jwt", response.data.token);
 
       const isAdminResponse = await checkUserGroup("admin");
-      console.log("isAdmin", isAdminResponse);
-
       const isUserResponse = await getUser();
-      console.log("isUserResponse", isUserResponse);
       if (isUserResponse.success) {
         dispatch({
           type: "setUser",

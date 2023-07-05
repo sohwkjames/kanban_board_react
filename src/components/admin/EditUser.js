@@ -51,7 +51,6 @@ export default function EditUser(props) {
       isActive,
       selectedUserGroups
     );
-    console.log("result", result);
     if (result.success) {
       createToast(result.message, true);
       handleClose();

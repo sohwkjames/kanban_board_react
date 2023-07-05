@@ -25,3 +25,17 @@ export async function addUserGroup(groupName) {
 
   return response.data;
 }
+
+export async function checkGroup(groupname) {
+  const token = localStorage.getItem("jwt");
+
+  const response = await axios.post(
+    baseUrl + "/checkusergroup",
+    {
+      groupname,
+    },
+    token ? { headers: { authorization: "Bearer token " + token } } : {}
+  );
+
+  return response.data;
+}

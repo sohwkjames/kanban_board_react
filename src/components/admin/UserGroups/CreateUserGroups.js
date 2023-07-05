@@ -13,7 +13,6 @@ export default function CreateUserGroups({ setUserGroups, updateParentData }) {
       return;
     }
     const response = await addUserGroup(groupName);
-    console.log("james response is", response);
     if (response.success) {
       toast.success(response.message);
       updateParentData(groupName);

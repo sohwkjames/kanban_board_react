@@ -25,7 +25,6 @@ export default function Profile() {
     // hit the get user details api
     async function fireApi() {
       const result = await getUser();
-      console.log("Result is", result);
       if (result.success) {
         form.setFieldsValue({
           username: result.data.username,
@@ -45,9 +44,7 @@ export default function Profile() {
   async function onFinish(values) {
     // Hit the update api
     const { email, password } = values;
-    console.log(values);
     const result = await updateUserProfile(email, password);
-    console.log("Result is", result);
     if (result.success) {
       toast.success("User updated successfully");
     } else {
