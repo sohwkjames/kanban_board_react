@@ -6,6 +6,7 @@ import { checkGroup } from "../../urls/userGroups";
 import UnverifiedUser from "../unverifieduser/UnverifiedUser";
 import "./applications.css";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 export default function Applications() {
   const [applications, setApplications] = useState([]);
@@ -51,20 +52,25 @@ export default function Applications() {
       key: "App_description",
     },
     {
-      title: "App R Number",
+      title: "App Running Number",
       dataIndex: "App_rnumber",
       key: "App_description",
     },
-
     {
-      title: "App Start Date",
+      title: "App Start Date (YYYY-MM-DD)",
       dataIndex: "App_startdate",
       key: "App_startdate",
+      render: (date) => {
+        return dayjs(date).format("YYYY-MM-DD");
+      },
     },
     {
-      title: "App End Date",
+      title: "App End Date (YYYY-MM-DD)",
       dataIndex: "App_enddate",
       key: "App_enddate",
+      render: (date) => {
+        return dayjs(date).format("YYYY-MM-DD");
+      },
     },
     {
       title: "Action",

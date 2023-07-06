@@ -1,33 +1,55 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, DatePicker, Form, Input, InputNumber } from "antd";
 import { createApplication } from "../../urls/applications";
+import dayjs from "dayjs";
+import { ToastContainer, toast } from "react-toastify";
+import TextArea from "antd/es/input/TextArea";
+import { getAllUserGroups } from "../../urls/userGroups";
+
+const dateFormat = "YYYY/MM/DD";
 
 export default function CreateApplication(props) {
+  const [userGroups, setUserGroups] = useState();
   const navigate = useNavigate();
+
   useEffect(() => {
     console.log("Firing CreateApplication useEffect");
+    populateUserGroups();
   }, []);
 
   const { RangePicker } = DatePicker;
+
+  async function populateUserGroups() {
+    try {
+      const result = await getAllUserGroups();
+      setUserGroups(result.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   async function onFinish(values) {
     // const appStartdate = values.appStartdate;
     const vals = {
       ...values,
-      appStartdate: values.appDate[0].$d,
-      appEnddate: values.appDate[1].$d,
+      appStartdate: values.appDate[0].format("YYYY-MM-DD"),
+      appEnddate: values.appDate[1].format("YYYY-MM-DD"),
     };
     console.log(vals);
     const result = await createApplication(
       vals.appAcronym,
       vals.appRnumber,
+      vals.appDescription,
       vals.appStartdate,
       vals.appEnddate
     );
-
-    console.log("result", result);
-    // console.log(values.appStartdate[0].$d);
+    if (result.success) {
+      toast.success("App added successfully");
+    }
+    if (!result.success) {
+      toast.error(result.message);
+    }
   }
 
   return (
@@ -60,6 +82,15 @@ export default function CreateApplication(props) {
           <Input />
         </Form.Item>
 
+        <Form.Item label="App Description" name="appDescription">
+          <TextArea
+            autoSize={{
+              minRows: 3,
+              maxRows: 5,
+            }}
+          />
+        </Form.Item>
+
         <Form.Item
           label="App Running Number"
           name="appRnumber"
@@ -83,7 +114,7 @@ export default function CreateApplication(props) {
             },
           ]}
         >
-          <RangePicker />
+          <RangePicker format="YYYY-MM-DD" />
         </Form.Item>
 
         {/* <Form.Item
@@ -111,6 +142,7 @@ export default function CreateApplication(props) {
           </Button>
         </Form.Item>
       </Form>
+      <ToastContainer position="bottom-right" theme="colored" />
     </div>
   );
 }

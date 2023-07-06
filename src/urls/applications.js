@@ -18,19 +18,28 @@ export async function getApplications() {
 export async function createApplication(
   appAcronym,
   appRnumber,
-  // appDescription,
+  appDescription,
   appStartdate,
-  appEnddate
-  // appPermitOpen,
-  // appPermitTodolist,
-  // appPermitDoing,
-  // appPermitDone
+  appEnddate,
+  appPermitOpen,
+  appPermitTodolist,
+  appPermitDoing,
+  appPermitDone
 ) {
   const token = localStorage.getItem("jwt");
-  console.log("token", token);
   const response = await axios.post(
     baseUrl + "/applications",
-    { appAcronym, appRnumber, appStartdate, appEnddate },
+    {
+      appAcronym,
+      appRnumber,
+      appDescription,
+      appStartdate,
+      appEnddate,
+      appPermitOpen,
+      appPermitTodolist,
+      appPermitDoing,
+      appPermitDone,
+    },
     token && {
       headers: {
         authorization: "Bearer token " + token,
