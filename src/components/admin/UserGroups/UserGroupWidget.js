@@ -11,10 +11,8 @@ export default function UserGroupWidget() {
     async function fireApi() {
       const response = await getAllUserGroups();
       if (response.success) {
-        let groupnames = response.userGroups.map(
-          (usergroup) => usergroup.groupname
-        );
-        setUserGroups(groupnames);
+        // let groupnames = response.userGroups.map((groupname) => groupname);
+        setUserGroups(response.userGroups);
       }
     }
     fireApi();

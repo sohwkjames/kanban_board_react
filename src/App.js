@@ -13,6 +13,8 @@ import Profile from "./components/profile/Profile";
 import Applications from "./components/applications/Applications";
 import EditApplication from "./components/applications/EditApplication";
 import CreateApplication from "./components/applications/CreateApplication";
+import CreateTask from "./components/tasks/CreateTask";
+import CreatePlan from "./components/plans/CreatePlan";
 
 function App() {
   const [state, dispatch] = useReducer(authReducer, initialReducerState);
@@ -42,6 +44,18 @@ function App() {
               <Route index element={<Applications />} />
               <Route path=":appAcronym" element={<EditApplication />} />
               <Route path="create" element={<CreateApplication />} />
+            </Route>
+
+            <Route path="/plans">
+              {/* <Route index element={<Applications />} /> */}
+              {/* <Route path=":appAcronym" element={<EditApplication />} /> */}
+              <Route path="create" element={<CreatePlan />} />
+            </Route>
+
+            <Route path="/tasks">
+              {/* <Route index element={<Applications />} /> */}
+              {/* <Route path=":appAcronym" element={<EditApplication />} /> */}
+              <Route path="create" element={<CreateTask />} />
             </Route>
           </Routes>
         </DispatchAuthContext.Provider>

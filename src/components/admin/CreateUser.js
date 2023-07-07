@@ -16,8 +16,8 @@ export default function CreateUser(props) {
       const result = await getAllUserGroups();
 
       if (result.success) {
-        const tmp = result.userGroups.map((record) => {
-          return { label: record.groupname, value: record.groupname };
+        const tmp = result.userGroups.map((groupName) => {
+          return { label: groupName, value: groupName };
         });
         setUserGroups(tmp);
       }
@@ -122,6 +122,7 @@ export default function CreateUser(props) {
               <Select.Option value="0">Inactive</Select.Option>
             </Select>
           </Form.Item>
+
           <Space>
             <Form.Item
               wrapperCol={{

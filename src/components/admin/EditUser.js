@@ -14,8 +14,8 @@ export default function EditUser(props) {
     async function fireApi() {
       const result = await getAllUserGroups();
       if (result.success) {
-        const tmp = result.userGroups.map((group) => {
-          return { label: group.groupname, value: group.groupname };
+        const tmp = result.userGroups.map((groupname) => {
+          return { label: groupname, value: groupname };
         });
 
         setUserGroupOptions(tmp);

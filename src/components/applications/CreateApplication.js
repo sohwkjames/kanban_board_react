@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, DatePicker, Form, Input, InputNumber } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
 import { createApplication } from "../../urls/applications";
 import dayjs from "dayjs";
 import { ToastContainer, toast } from "react-toastify";
 import TextArea from "antd/es/input/TextArea";
 import { getAllUserGroups } from "../../urls/userGroups";
+import Spinner from "../layout/Spinner";
+import Page from "../page/Page";
 
 const dateFormat = "YYYY/MM/DD";
 
 export default function CreateApplication(props) {
-  const [userGroups, setUserGroups] = useState();
+  const [userGroups, setUserGroups] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,7 +26,8 @@ export default function CreateApplication(props) {
   async function populateUserGroups() {
     try {
       const result = await getAllUserGroups();
-      setUserGroups(result.data);
+      setUserGroups(result.userGroups);
+      setLoading(false);
     } catch (e) {
       console.log(e);
     }
@@ -42,18 +46,27 @@ export default function CreateApplication(props) {
       vals.appRnumber,
       vals.appDescription,
       vals.appStartdate,
-      vals.appEnddate
+      vals.appEnddate,
+      vals.appPermitOpen,
+      vals.appPermitTodolist,
+      vals.appPermitDoing,
+      vals.appPermitDone
     );
     if (result.success) {
       toast.success("App added successfully");
+      navigate("/applications");
     }
     if (!result.success) {
       toast.error(result.message);
     }
   }
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
-    <div>
+    <Page>
       <h3>Create Application</h3>
       <Form
         name="basic"
@@ -117,19 +130,60 @@ export default function CreateApplication(props) {
           <RangePicker format="YYYY-MM-DD" />
         </Form.Item>
 
-        {/* <Form.Item
-          label="App End Date"
-          name="appEndDate"
-          rules={[
-            {
-              required: true,
-              message: "App end date is required",
-            },
-          ]}
-        >
-          <DatePicker />
+        <h3>Configure user group permissions to task's current state</h3>
+
+        <Form.Item label="When task is open" name="appPermitOpen">
+          <Select
+            showSearch
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+            options={userGroups.map((groupName) => {
+              return { value: groupName, label: groupName };
+            })}
+          />
         </Form.Item>
- */}
+
+        <Form.Item label="When task is in to-do list" name="appPermitTodolist">
+          <Select
+            showSearch
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+            options={userGroups.map((groupName) => {
+              return { value: groupName, label: groupName };
+            })}
+          />
+        </Form.Item>
+
+        <Form.Item label="When task is doing" name="appPermitDoing">
+          <Select
+            showSearch
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+            options={userGroups.map((groupName) => {
+              return { value: groupName, label: groupName };
+            })}
+          />
+        </Form.Item>
+
+        <Form.Item label="When task is done" name="appPermitDone">
+          <Select
+            showSearch
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+            options={userGroups.map((groupName) => {
+              return { value: groupName, label: groupName };
+            })}
+          />
+        </Form.Item>
+
         <Form.Item
           wrapperCol={{
             offset: 8,
@@ -143,6 +197,6 @@ export default function CreateApplication(props) {
         </Form.Item>
       </Form>
       <ToastContainer position="bottom-right" theme="colored" />
-    </div>
+    </Page>
   );
 }

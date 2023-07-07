@@ -7,12 +7,14 @@ import UnverifiedUser from "../unverifieduser/UnverifiedUser";
 import "./applications.css";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import Spinner from "../layout/Spinner";
 
 export default function Applications() {
   const [applications, setApplications] = useState([]);
   const [showCreateButton, setShowCreateButton] = useState(false);
   const [isProjectLead, setIsProjectLead] = useState(false);
   const [warning, setWarning] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +30,7 @@ export default function Applications() {
         return { ...record, key: record.App_Acronym };
       });
       setApplications(dataWithKey);
+      setLoading(false);
     }
   }
 
@@ -73,17 +76,27 @@ export default function Applications() {
       },
     },
     {
-      title: "Action",
+      title: "Actions",
       key: "action",
       render: (_, record) => (
-        <Button
-          onClick={() => {
-            console.log("record", record);
-            navigate("/applications/" + record.App_Acronym);
-          }}
-        >
-          Edit
-        </Button>
+        <>
+          <Button
+            onClick={() => {
+              console.log("record", record);
+              navigate("/applications/" + record.App_Acronym);
+            }}
+          >
+            Edit
+          </Button>
+          <Button
+            onClick={() => {
+              console.log("record", record);
+              navigate("/applications/" + record.App_Acronym);
+            }}
+          >
+            View
+          </Button>
+        </>
       ),
     },
   ];
@@ -92,6 +105,10 @@ export default function Applications() {
     return (
       <UnverifiedUser message="You do not have permission to access this resource" />
     );
+  }
+
+  if (loading) {
+    return <Spinner />;
   }
 
   return (

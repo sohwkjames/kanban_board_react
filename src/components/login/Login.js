@@ -32,12 +32,13 @@ export default function Login() {
       }
 
       setLoading(false);
+      navigate("/landing");
 
-      navigate(
-        response.data.userGroups.includes("admin")
-          ? "/admin/usermanagement"
-          : "/landing"
-      );
+      // navigate(
+      //   response.data.userGroups.includes("admin")
+      //     ? "/admin/usermanagement"
+      //     : "/landing"
+      // );
     } else {
       setLoading(false);
       setIsError(true);
