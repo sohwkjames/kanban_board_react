@@ -8,6 +8,7 @@ import "./applications.css";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import Spinner from "../layout/Spinner";
+import { ToastContainer } from "react-toastify";
 
 export default function Applications() {
   const [applications, setApplications] = useState([]);
@@ -83,7 +84,7 @@ export default function Applications() {
           <Button
             onClick={() => {
               console.log("record", record);
-              navigate("/applications/" + record.App_Acronym);
+              navigate("/applications/edit/" + record.App_Acronym);
             }}
           >
             Edit
@@ -121,6 +122,7 @@ export default function Applications() {
       </div>
 
       <Table dataSource={applications} columns={columns} />
+      <ToastContainer position="bottom-right" theme="colored" />
     </Page>
   );
 }

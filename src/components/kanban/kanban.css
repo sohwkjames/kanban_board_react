@@ -1,0 +1,13 @@
+.heading {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.right-side {
+  min-width: 400px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+}

@@ -15,6 +15,20 @@ export async function getApplications() {
   return response.data;
 }
 
+export async function getApplication(appAcronym) {
+  const token = localStorage.getItem("jwt");
+  const response = await axios.get(
+    baseUrl + `/applications/${appAcronym}`,
+    token && {
+      headers: {
+        authorization: "Bearer token " + token,
+      },
+    }
+  );
+
+  return response.data;
+}
+
 export async function createApplication(
   appAcronym,
   appRnumber,

@@ -60,6 +60,10 @@ export default function Header() {
         ) : (
           <> </>
         )}
+        <div className="nav-button" onClick={() => navigate("/applications")}>
+          App Management
+        </div>
+
         {context.isActive ? (
           <div
             className={

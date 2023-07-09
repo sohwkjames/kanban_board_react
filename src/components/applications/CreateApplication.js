@@ -34,6 +34,7 @@ export default function CreateApplication(props) {
   }
 
   async function onFinish(values) {
+    console.log("on finish values");
     // const appStartdate = values.appStartdate;
     const vals = {
       ...values,
@@ -53,8 +54,10 @@ export default function CreateApplication(props) {
       vals.appPermitDone
     );
     if (result.success) {
-      toast.success("App added successfully");
       navigate("/applications");
+      setTimeout(() => {
+        toast.success("App added successfully");
+      }, 1);
     }
     if (!result.success) {
       toast.error(result.message);
@@ -69,6 +72,7 @@ export default function CreateApplication(props) {
     <Page>
       <h3>Create Application</h3>
       <Form
+        layout="vertical"
         name="basic"
         labelCol={{
           span: 8,
@@ -130,9 +134,11 @@ export default function CreateApplication(props) {
           <RangePicker format="YYYY-MM-DD" />
         </Form.Item>
 
-        <h3>Configure user group permissions to task's current state</h3>
+        <h3>
+          For each task state, which user group can take actions on the task?
+        </h3>
 
-        <Form.Item label="When task is open" name="appPermitOpen">
+        <Form.Item label="Creating a task" name="appPermitCreate">
           <Select
             showSearch
             optionFilterProp="children"
@@ -145,7 +151,7 @@ export default function CreateApplication(props) {
           />
         </Form.Item>
 
-        <Form.Item label="When task is in to-do list" name="appPermitTodolist">
+        <Form.Item label="Send task from open to to-do" name="appPermitOpen">
           <Select
             showSearch
             optionFilterProp="children"
@@ -158,7 +164,10 @@ export default function CreateApplication(props) {
           />
         </Form.Item>
 
-        <Form.Item label="When task is doing" name="appPermitDoing">
+        <Form.Item
+          label="Send task from to-do to doing, and from doing to to-do."
+          name="appPermitTodolist"
+        >
           <Select
             showSearch
             optionFilterProp="children"
@@ -171,7 +180,23 @@ export default function CreateApplication(props) {
           />
         </Form.Item>
 
-        <Form.Item label="When task is done" name="appPermitDone">
+        <Form.Item label="Send task from doing to done." name="appPermitDoing">
+          <Select
+            showSearch
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+            options={userGroups.map((groupName) => {
+              return { value: groupName, label: groupName };
+            })}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Send task from done to approved, or send task from done to closed"
+          name="appPermitDone"
+        >
           <Select
             showSearch
             optionFilterProp="children"

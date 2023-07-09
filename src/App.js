@@ -15,6 +15,8 @@ import EditApplication from "./components/applications/EditApplication";
 import CreateApplication from "./components/applications/CreateApplication";
 import CreateTask from "./components/tasks/CreateTask";
 import CreatePlan from "./components/plans/CreatePlan";
+import TaskManagement from "./components/tasks/TaskManagement";
+import Kanban from "./components/kanban/Kanban";
 
 function App() {
   const [state, dispatch] = useReducer(authReducer, initialReducerState);
@@ -42,19 +44,22 @@ function App() {
 
             <Route path="/applications">
               <Route index element={<Applications />} />
-              <Route path=":appAcronym" element={<EditApplication />} />
+              <Route path="edit/:appAcronym" element={<EditApplication />} />
+              <Route path=":appAcronym" element={<Kanban />} />
+
               <Route path="create" element={<CreateApplication />} />
             </Route>
 
             <Route path="/plans">
               {/* <Route index element={<Applications />} /> */}
               {/* <Route path=":appAcronym" element={<EditApplication />} /> */}
-              <Route path="create" element={<CreatePlan />} />
+              <Route path="create/:appAcronym" element={<CreatePlan />} />
             </Route>
 
             <Route path="/tasks">
               {/* <Route index element={<Applications />} /> */}
               {/* <Route path=":appAcronym" element={<EditApplication />} /> */}
+              <Route path="management" element={<TaskManagement />}></Route>
               <Route path="create" element={<CreateTask />} />
             </Route>
           </Routes>
