@@ -46,6 +46,7 @@ function App() {
               <Route index element={<Applications />} />
               <Route path="edit/:appAcronym" element={<EditApplication />} />
               <Route path=":appAcronym" element={<Kanban />} />
+              <Route path=":appAcronym/:planName" element={<Kanban />} />
 
               <Route path="create" element={<CreateApplication />} />
             </Route>

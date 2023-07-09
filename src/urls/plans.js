@@ -26,7 +26,7 @@ export async function createPlan(
   return response.data;
 }
 
-export async function viewPlans() {
+export async function getAllPlans() {
   const token = localStorage.getItem("jwt");
   const response = await axios.get(
     baseUrl + "/plans",
