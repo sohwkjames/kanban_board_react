@@ -8,17 +8,23 @@ import TextArea from "antd/es/input/TextArea";
 import { getAllUserGroups } from "../../urls/userGroups";
 import Spinner from "../layout/Spinner";
 import Page from "../page/Page";
+import { checkUserCanPerformAction } from "../../urls/tasks";
+import { checkUserGroup } from "../../urls/auth";
+import UnverifiedUser from "../unverifieduser/UnverifiedUser";
 
 const dateFormat = "YYYY/MM/DD";
 
 export default function CreateApplication(props) {
   const [userGroups, setUserGroups] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [unauthorized, setUnauthorized] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log("Firing CreateApplication useEffect");
     populateUserGroups();
+    checkRoute();
   }, []);
 
   const { RangePicker } = DatePicker;
@@ -31,6 +37,17 @@ export default function CreateApplication(props) {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  async function checkRoute() {
+    const result = await checkUserGroup("projectLead");
+    console.log("checkROute result", result);
+    if (result.success) {
+      setUnauthorized(false);
+    } else {
+      setUnauthorized(true);
+    }
+    setLoading(false);
   }
 
   async function onFinish(values) {
@@ -66,6 +83,12 @@ export default function CreateApplication(props) {
 
   if (loading) {
     return <Spinner />;
+  }
+
+  if (unauthorized) {
+    return (
+      <UnverifiedUser message="You do not have permission to access this resource" />
+    );
   }
 
   return (

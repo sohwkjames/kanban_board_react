@@ -6,8 +6,12 @@
 }
 
 .right-side {
-  min-width: 400px;
+  min-width: 500px;
   display: flex;
   justify-content: space-between;
   border: 1px solid black;
+}
+
+.right-side > * {
+  padding: 1em;
 }

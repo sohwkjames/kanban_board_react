@@ -4,8 +4,9 @@ import { checkGroup } from "../../urls/userGroups";
 import { Button, Dropdown, Space } from "antd";
 import "./kanban.css";
 import Page from "../page/Page";
-import { getAllPlans } from "../../urls/plans";
+import { getAllPlans, getPlanByAppAcronym } from "../../urls/plans";
 import { DownOutlined } from "@ant-design/icons";
+import { checkUserCanPerformAction } from "../../urls/tasks";
 
 export default function KanbanHeader(props) {
   const { appAcronym, planName } = useParams();
@@ -17,24 +18,35 @@ export default function KanbanHeader(props) {
   useEffect(() => {
     checkIsProjectManager();
     getPlans();
+    checkUserCanCreateTask();
   }, []);
 
   async function checkIsProjectManager() {
-    const isProjectManager = await checkGroup("projectManager");
+    const isProjectManager = await checkUserCanPerformAction(
+      appAcronym,
+      "App_permit_open"
+    );
     if (isProjectManager.success) {
       setCreatePlanVisible(true);
     }
   }
 
   async function getPlans() {
-    const plansResponse = await getAllPlans(appAcronym);
+    const plansResponse = await getPlanByAppAcronym(appAcronym);
     setPlans(plansResponse.data);
     console.log("plansResponse", plansResponse);
   }
 
   console.log("plans", plans);
 
-  // const plansOptions =
+  async function checkUserCanCreateTask() {
+    const result = await checkUserCanPerformAction(
+      appAcronym,
+      "App_permit_create"
+    );
+
+    console.log("user can create task", result);
+  }
 
   const items = [
     {
@@ -55,18 +67,14 @@ export default function KanbanHeader(props) {
     navigate(`/applications/${appAcronym}/${key}`);
   };
 
-  console.log("items", items);
-  console.log("plans", plans);
-  console.log("plansDropdownOptions", plansMenu);
-
   return (
     <Page>
       <div className="heading">
         <h3 className="appname">Application: {appAcronym}</h3>
         <div className="right-side">
           <div className="date">
-            <p>Start date: </p>
-            <p>End date: </p>
+            <p>Start date: SAMPLE DATE</p>
+            <p>End date: SAMPLE DATE</p>
           </div>
           <div className="planlist">
             <Dropdown
@@ -85,12 +93,14 @@ export default function KanbanHeader(props) {
             </Dropdown>
           </div>
           <div className="buttons">
-            <Button
-              onClick={() => navigate(`/plans/create/${appAcronym}`)}
-              type="primary"
-            >
-              Create Plan
-            </Button>
+            {createPlanVisible && (
+              <Button
+                onClick={() => navigate(`/plans/create/${appAcronym}`)}
+                type="primary"
+              >
+                Create Plan
+              </Button>
+            )}
           </div>
         </div>
       </div>

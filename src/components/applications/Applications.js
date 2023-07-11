@@ -9,19 +9,18 @@ import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import Spinner from "../layout/Spinner";
 import { ToastContainer } from "react-toastify";
+import { checkUserCanPerformAction } from "../../urls/tasks";
 
 export default function Applications() {
   const [applications, setApplications] = useState([]);
   const [showCreateButton, setShowCreateButton] = useState(false);
-  const [isProjectLead, setIsProjectLead] = useState(false);
   const [warning, setWarning] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Applications.js useEffect firing");
     getApplicationsData();
-    checkIfProjectManager();
+    // checkIfProjectLead();
   }, []);
 
   async function getApplicationsData() {
@@ -35,8 +34,8 @@ export default function Applications() {
     }
   }
 
-  async function checkIfProjectManager() {
-    const response = await checkGroup("projectManager");
+  async function checkIfProjectLead() {
+    const response = await checkGroup("projectLead");
     if (response.success) {
       setShowCreateButton(true);
     } else {
@@ -116,9 +115,15 @@ export default function Applications() {
     <Page>
       <div className="application-nav">
         <h3>Applications</h3>
-        <Button type="primary" onClick={() => navigate("/applications/create")}>
-          Create application
-        </Button>
+
+        {showCreateButton && (
+          <Button
+            type="primary"
+            onClick={() => navigate("/applications/create")}
+          >
+            Create application
+          </Button>
+        )}
       </div>
 
       <Table dataSource={applications} columns={columns} />
