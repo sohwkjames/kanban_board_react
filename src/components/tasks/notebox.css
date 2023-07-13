@@ -1,0 +1,15 @@
+.notebox {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+}
+
+.left-col {
+  width: 20%;
+  border-right: 2px solid black;
+  padding: 1em;
+}
+
+.right-col {
+  padding: 1em;
+}

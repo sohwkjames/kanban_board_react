@@ -6,6 +6,7 @@ import DispatchAuthContext from "../../context/dispatchAuthContext";
 import AuthContext from "../../context/authContext";
 import { checkUserGroup } from "../../urls/auth";
 import { getUser } from "../../urls/users";
+import { useSpring, animated } from "react-spring";
 
 export default function Header() {
   const dispatch = useContext(DispatchAuthContext);
@@ -13,6 +14,10 @@ export default function Header() {
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState("");
   const location = useLocation();
+  const springs = useSpring({
+    from: { x: 0, opacity: 0 },
+    to: { x: 50, opacity: 1 },
+  });
 
   // Handles persist 'user management' button when admin user is logged in and user refresh page
   useEffect(() => {
@@ -44,9 +49,22 @@ export default function Header() {
 
   return (
     <div style={{ background: colourScheme.lightBlue }} className="container">
-      <h2 onClick={() => navigate("/landing")} style={{ cursor: "pointer" }}>
+      <animated.h2
+        onClick={() => navigate("/landing")}
+        style={{ cursor: "pointer", ...springs }}
+      >
         Task Management System
-      </h2>
+      </animated.h2>
+      {/* <animated.div
+        style={{
+          width: 80,
+          height: 80,
+          background: "#ff6d6d",
+          borderRadius: 8,
+          ...springs,
+        }}
+      /> */}
+
       {/* isActive: {context.isActive}
       isAdmin: {context.isAdmin} */}
       <div className="button-container">
@@ -61,7 +79,11 @@ export default function Header() {
           <> </>
         )}
         {context.isActive ? (
-          <div className="nav-button" onClick={() => navigate("/applications")}>
+          <div
+            style={{ fontWeight: "bold" }}
+            className="nav-button"
+            onClick={() => navigate("/applications")}
+          >
             App Management
           </div>
         ) : (
@@ -70,6 +92,7 @@ export default function Header() {
 
         {context.isActive ? (
           <div
+            style={{ fontWeight: "bold" }}
             className={
               "nav-button" + location.pathname === "/profile"
                 ? "-underline"
@@ -82,7 +105,11 @@ export default function Header() {
         ) : (
           <></>
         )}
-        <div className="nav-button" onClick={handleLogout}>
+        <div
+          style={{ fontWeight: "bold" }}
+          className="nav-button"
+          onClick={handleLogout}
+        >
           Logout
         </div>
       </div>

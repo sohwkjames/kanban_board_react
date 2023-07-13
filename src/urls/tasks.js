@@ -102,13 +102,19 @@ export async function getTask(taskId) {
   return;
 }
 
-export async function editTask(taskId, taskName, taskDescription, taskPlan) {
+export async function editTask(
+  taskId,
+  taskName,
+  taskDescription,
+  taskPlan,
+  taskNote
+) {
   const token = localStorage.getItem("jwt");
   let response;
   if (token) {
     response = await axios.put(
       baseUrl + "/tasks",
-      { taskId, taskName, taskDescription, taskPlan },
+      { taskId, taskName, taskDescription, taskPlan, taskNote },
       {
         headers: {
           authorization: "Bearer token " + token,
