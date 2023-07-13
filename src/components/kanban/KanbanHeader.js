@@ -59,7 +59,7 @@ export default function KanbanHeader(props) {
   let plansMenu = plans.map((p) => {
     return {
       key: p.Plan_mvp_name,
-      label: p.Plan_mvp_name,
+      label: <div style={{ backgroundColor: "red" }}>p.Plan_mvp_name</div>,
     };
   });
   plansMenu.splice(0, 0, { key: "SELECT_PLAN", label: "Select Plan" });
@@ -81,12 +81,10 @@ export default function KanbanHeader(props) {
   return (
     <>
       <div className="heading">
-        <h3 className="appname">Application: {appAcronym}</h3>
+        <div className="appname">
+          <h3>{appAcronym}</h3>
+        </div>
         <div className="right-side">
-          <div className="date">
-            <p>Start date: {selectedPlan?.Plan_startdate}</p>
-            <p>End date: {selectedPlan?.Plan_enddate}</p>
-          </div>
           <div className="planlist">
             <Dropdown
               menu={{
@@ -103,6 +101,11 @@ export default function KanbanHeader(props) {
               </a>
             </Dropdown>
           </div>
+          <div className="date">
+            <p>Start date: {selectedPlan?.Plan_startdate}</p>
+            <p>End date: {selectedPlan?.Plan_enddate}</p>
+          </div>
+
           <div className="buttons">
             {createPlanVisible && (
               <Button
