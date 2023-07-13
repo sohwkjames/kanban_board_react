@@ -31,8 +31,6 @@ export default function CreatePlan() {
     const result = await getApplication(appAcronym);
     setAppStartDate(result.data[0].App_startdate);
     setAppEndDate(result.data[0].App_enddate);
-
-    console.log("result", result);
   }
 
   async function checkRoute() {
@@ -40,7 +38,6 @@ export default function CreatePlan() {
       appAcronym,
       "App_permit_open"
     );
-    console.log("checkROute result", result);
     if (result.success) {
       setUnauthorized(false);
     } else {

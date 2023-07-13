@@ -11,6 +11,8 @@ import { checkUserCanPerformAction } from "../../urls/tasks";
 export default function KanbanHeader(props) {
   const { appAcronym, planName } = useParams();
   const [createPlanVisible, setCreatePlanVisible] = useState(false);
+  const [createTaskVisible, setCreateTaskVisible] = useState(false);
+
   const [plans, setPlans] = useState([]);
 
   const navigate = useNavigate();
@@ -34,18 +36,16 @@ export default function KanbanHeader(props) {
   async function getPlans() {
     const plansResponse = await getPlanByAppAcronym(appAcronym);
     setPlans(plansResponse.data);
-    console.log("plansResponse", plansResponse);
   }
-
-  console.log("plans", plans);
 
   async function checkUserCanCreateTask() {
     const result = await checkUserCanPerformAction(
       appAcronym,
       "App_permit_create"
     );
-
-    console.log("user can create task", result);
+    if (result.success) {
+      setCreateTaskVisible(true);
+    }
   }
 
   const items = [
@@ -68,7 +68,7 @@ export default function KanbanHeader(props) {
   };
 
   return (
-    <Page>
+    <>
       <div className="heading">
         <h3 className="appname">Application: {appAcronym}</h3>
         <div className="right-side">
@@ -101,9 +101,17 @@ export default function KanbanHeader(props) {
                 Create Plan
               </Button>
             )}
+            {createTaskVisible && (
+              <Button
+                onClick={() => navigate(`/tasks/create/${appAcronym}`)}
+                type="primary"
+              >
+                Create Task
+              </Button>
+            )}
           </div>
         </div>
       </div>
-    </Page>
+    </>
   );
 }

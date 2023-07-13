@@ -20,7 +20,7 @@ export default function Applications() {
 
   useEffect(() => {
     getApplicationsData();
-    // checkIfProjectLead();
+    checkIfProjectLead();
   }, []);
 
   async function getApplicationsData() {
@@ -80,14 +80,16 @@ export default function Applications() {
       key: "action",
       render: (_, record) => (
         <>
-          <Button
-            onClick={() => {
-              console.log("record", record);
-              navigate("/applications/edit/" + record.App_Acronym);
-            }}
-          >
-            Edit
-          </Button>
+          {showCreateButton && (
+            <Button
+              onClick={() => {
+                console.log("record", record);
+                navigate("/applications/edit/" + record.App_Acronym);
+              }}
+            >
+              Edit
+            </Button>
+          )}
           <Button
             onClick={() => {
               console.log("record", record);
