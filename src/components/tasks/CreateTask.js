@@ -3,13 +3,14 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { checkUserGroup } from "../../urls/auth";
 import { addTask, checkUserCanPerformAction } from "../../urls/tasks";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getPlanByAppAcronym } from "../../urls/plans";
 import Spinner from "../layout/Spinner";
 import UnverifiedUser from "../unverifieduser/UnverifiedUser";
 import Page from "../page/Page";
 import TextArea from "antd/es/input/TextArea";
 import { TASK_STATES } from "../../constants/taskState";
+import { toast } from "react-toastify";
 
 const formItemLayout = {
   labelCol: {
@@ -48,6 +49,7 @@ export default function CreateTask() {
   const [loading, setLoading] = useState(true);
   const [plans, setPlans] = useState([]);
   const { appAcronym } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     handleCheckUserGroup();
@@ -87,8 +89,15 @@ export default function CreateTask() {
       appAcronym,
       TASK_STATES.open
     );
+    if (result.success) {
+      setTimeout(() => {
+        toast.success("Task added successfully");
+      }, 1);
 
-    console.log("result", result);
+      navigate(`/applications/${appAcronym}`);
+    } else {
+      toast.error("Error creating task");
+    }
   }
 
   if (loading) return <Spinner />;
