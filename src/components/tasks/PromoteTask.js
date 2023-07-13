@@ -7,6 +7,7 @@ import { useForm } from "antd/es/form/Form";
 import { editTask, getTask, promoteTask } from "../../urls/tasks";
 import TextArea from "antd/es/input/TextArea";
 import { getPlanByAppAcronym } from "../../urls/plans";
+import NoteBox from "./NoteBox";
 
 // EditTask page has no promote / demote funciton.
 // Only serve to edit task name, task desc, task plan, task notes.
@@ -14,6 +15,7 @@ export default function PromoteTask() {
   const { taskId } = useParams();
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
+  const [notes, setNotes] = useState([]);
   // const [appAcronym, setAppAcronym ]
   const [form] = useForm();
 
@@ -32,6 +34,9 @@ export default function PromoteTask() {
         taskDescription: task.Task_description,
         taskPlan: task.Task_plan,
       });
+      if (task.Task_notes) {
+        setNotes(task.Task_notes);
+      }
     }
   }
 
@@ -60,7 +65,8 @@ export default function PromoteTask() {
       taskId,
       vals.taskName,
       vals.taskDescription,
-      vals.taskPlan
+      vals.taskPlan,
+      vals.taskNote
     );
     if (promoteResponse.success) {
       setTimeout(() => {
@@ -99,6 +105,25 @@ export default function PromoteTask() {
             })}
           />
         </Form.Item>
+        <Form.Item label="Task Note" name="taskNote">
+          <TextArea
+            autoSize={{
+              minRows: 3,
+              maxRows: 5,
+            }}
+          />
+        </Form.Item>
+
+        <div>
+          <h3>Notes</h3>
+          <div style={{ paddingBottom: "3em" }}>
+            {notes.map((note) => (
+              <NoteBox note={note} key={note} />
+              // <div>{note.note}</div>
+            ))}
+          </div>
+        </div>
+
         <Space>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button

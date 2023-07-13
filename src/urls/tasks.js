@@ -126,13 +126,19 @@ export async function editTask(
   return;
 }
 
-export async function promoteTask(taskId, taskName, taskDescription, taskPlan) {
+export async function promoteTask(
+  taskId,
+  taskName,
+  taskDescription,
+  taskPlan,
+  taskNote
+) {
   const token = localStorage.getItem("jwt");
   let response;
   if (token) {
     response = await axios.post(
       baseUrl + "/task/promote",
-      { taskId, taskName, taskDescription, taskPlan },
+      { taskId, taskName, taskDescription, taskPlan, taskNote },
       {
         headers: {
           authorization: "Bearer token " + token,
@@ -144,13 +150,19 @@ export async function promoteTask(taskId, taskName, taskDescription, taskPlan) {
   return;
 }
 
-export async function demoteTask(taskId, taskName, taskDescription, taskPlan) {
+export async function demoteTask(
+  taskId,
+  taskName,
+  taskDescription,
+  taskPlan,
+  taskNote
+) {
   const token = localStorage.getItem("jwt");
   let response;
   if (token) {
     response = await axios.post(
       baseUrl + "/task/demote",
-      { taskId, taskName, taskDescription, taskPlan },
+      { taskId, taskName, taskDescription, taskPlan, taskNote },
       {
         headers: {
           authorization: "Bearer token " + token,
