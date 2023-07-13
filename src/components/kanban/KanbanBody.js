@@ -5,8 +5,6 @@ import { TASK_STATES } from "../../constants/taskState";
 
 export default function KanbanBody(props) {
   const { tasks, planName, appAcronym } = props;
-  console.log("kanban body tasks", tasks);
-  console.log("kanban body planName", planName);
 
   let openTasks;
   let todoTasks;

@@ -55,16 +55,25 @@ export default function KanbanHeader(props) {
       label: "a danger item",
     },
   ];
-  const plansMenu = plans.map((p) => {
+
+  let plansMenu = plans.map((p) => {
     return {
       key: p.Plan_mvp_name,
       label: p.Plan_mvp_name,
     };
   });
+  plansMenu.splice(0, 0, { key: "SELECT_PLAN", label: "Select Plan" });
 
   const onClick = ({ key }) => {
-    // console.log("onclick val", val);
-    navigate(`/applications/${appAcronym}/${key}`);
+    console.log("onClick fired, key is", key);
+
+    if (key === "SELECT_PLAN") {
+      console.log("in if branch");
+      navigate(`/applications/${appAcronym}`);
+    } else {
+      console.log("in else branch");
+      navigate(`/applications/${appAcronym}/${key}`);
+    }
   };
 
   return (

@@ -9,14 +9,12 @@ export default function Kanban() {
   const { planName, appAcronym } = useParams();
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
-    console.log("Firing Kanban.js useEffect");
     fireGetTaskByApp();
     // fireGetTaskByPlan();
   }, []);
 
   async function fireGetTaskByPlan() {
     const response = await getTaskByPlan(planName);
-    console.log("getTaskByPlan result", response);
   }
 
   async function fireGetTaskByApp() {
