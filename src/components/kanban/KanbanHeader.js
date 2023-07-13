@@ -12,8 +12,8 @@ export default function KanbanHeader(props) {
   const { appAcronym, planName } = useParams();
   const [createPlanVisible, setCreatePlanVisible] = useState(false);
   const [createTaskVisible, setCreateTaskVisible] = useState(false);
-
   const [plans, setPlans] = useState([]);
+  const [selectedPlan, setSelectedPlans] = useState();
 
   const navigate = useNavigate();
 
@@ -65,7 +65,9 @@ export default function KanbanHeader(props) {
   plansMenu.splice(0, 0, { key: "SELECT_PLAN", label: "Select Plan" });
 
   const onClick = ({ key }) => {
-    console.log("onClick fired, key is", key);
+    const result = plans.filter((p) => p.Plan_mvp_name === key);
+    setSelectedPlans(result[0]);
+    console.log("Set selected plan as", result[0]);
 
     if (key === "SELECT_PLAN") {
       console.log("in if branch");
@@ -82,8 +84,8 @@ export default function KanbanHeader(props) {
         <h3 className="appname">Application: {appAcronym}</h3>
         <div className="right-side">
           <div className="date">
-            <p>Start date: SAMPLE DATE</p>
-            <p>End date: SAMPLE DATE</p>
+            <p>Start date: {selectedPlan?.Plan_startdate}</p>
+            <p>End date: {selectedPlan?.Plan_enddate}</p>
           </div>
           <div className="planlist">
             <Dropdown

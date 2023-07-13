@@ -23,6 +23,8 @@ export default function Kanban() {
     if (response.success) {
       console.log("Setting tasks");
       setTasks(response.data);
+    } else {
+      console.log("response failed");
     }
   }
 
