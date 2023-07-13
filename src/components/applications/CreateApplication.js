@@ -65,6 +65,7 @@ export default function CreateApplication(props) {
       vals.appDescription,
       vals.appStartdate,
       vals.appEnddate,
+      vals.appPermitCreate,
       vals.appPermitOpen,
       vals.appPermitTodolist,
       vals.appPermitDoing,
