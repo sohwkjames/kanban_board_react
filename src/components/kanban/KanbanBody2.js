@@ -1,9 +1,9 @@
+import { ToastContainer } from "react-toastify";
 import KanbanCard from "./KanbanCard";
 import "./kanbanbody.css";
 import { TASK_STATES } from "../../constants/taskState";
-import { ToastContainer } from "react-toastify";
 
-export default function KabanBody(props) {
+export default function KanbanBody2(props) {
   const { tasks, planName, appAcronym } = props;
 
   let openTasks;
@@ -35,6 +35,7 @@ export default function KabanBody(props) {
     (task) => task.Task_state === TASK_STATES.closed
   );
 
+  // Sort the tasks in this function
   return (
     <div>
       <div className="kanban-body-container">

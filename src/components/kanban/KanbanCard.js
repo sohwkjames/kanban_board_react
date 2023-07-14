@@ -6,7 +6,12 @@ export default function KanbanCard(props) {
   const navigate = useNavigate();
 
   return (
-    <div className="card">
+    <div
+      style={{ borderLeft: `10px solid ${task.Plan_colour}` }}
+      className="card"
+    >
+      <span>Plan Colour: {task.Plan_colour}</span>
+
       <span>Task id: {task.Task_id}</span>
       <span style={{ fontSize: "1.2em" }}>Task name: {task.Task_name}</span>
       <p>Owner: {task.Task_owner}</p>

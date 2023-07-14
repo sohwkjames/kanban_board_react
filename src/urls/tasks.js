@@ -70,13 +70,13 @@ export async function getTaskByApp(appAcronym) {
   return;
 }
 
-export async function getTaskByPlan(planName) {
+export async function getTaskByPlan(appAcronym, planName) {
   const token = localStorage.getItem("jwt");
   let response;
   if (token) {
     response = await axios.post(
       baseUrl + "/tasks-by-plan",
-      { planName },
+      { appAcronym, planName },
       {
         headers: {
           authorization: "Bearer token " + token,
