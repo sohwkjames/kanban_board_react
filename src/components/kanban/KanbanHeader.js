@@ -13,7 +13,7 @@ export default function KanbanHeader(props) {
   const [createPlanVisible, setCreatePlanVisible] = useState(false);
   const [createTaskVisible, setCreateTaskVisible] = useState(false);
   const [plans, setPlans] = useState([]);
-  const [selectedPlan, setSelectedPlans] = useState();
+  const [selectedPlan, setSelectedPlan] = useState();
 
   const navigate = useNavigate();
 
@@ -48,25 +48,26 @@ export default function KanbanHeader(props) {
     }
   }
 
-  const items = [
-    {
-      key: "4",
-      danger: true,
-      label: "a danger item",
-    },
-  ];
-
   let plansMenu = plans.map((p) => {
     return {
       key: p.Plan_mvp_name,
-      label: <div style={{ backgroundColor: "red" }}>p.Plan_mvp_name</div>,
+      label: (
+        <div
+          style={{
+            borderLeft: `10px solid ${p.Plan_colour}`,
+            paddingLeft: "5px",
+          }}
+        >
+          {p.Plan_mvp_name}
+        </div>
+      ),
     };
   });
   plansMenu.splice(0, 0, { key: "SELECT_PLAN", label: "Select Plan" });
 
   const onClick = ({ key }) => {
     const result = plans.filter((p) => p.Plan_mvp_name === key);
-    setSelectedPlans(result[0]);
+    setSelectedPlan(result[0]);
     console.log("Set selected plan as", result[0]);
 
     if (key === "SELECT_PLAN") {

@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input } from "antd";
+import { Button, DatePicker, Form, Input, ColorPicker } from "antd";
 import dayjs from "dayjs";
 import Page from "../page/Page";
 import TextArea from "antd/es/input/TextArea";
@@ -49,27 +49,28 @@ export default function CreatePlan() {
   async function onFinish(values) {
     const formattedValues = {
       ...values,
+      planColour: values.planColour.toHexString(),
       planStartDate: values.planDates[0].format("YYYY-MM-DD"),
       planEndDate: values.planDates[1].format("YYYY-MM-DD"),
     };
     console.log(formattedValues);
-    const createPlanResponse = await createPlan(
-      formattedValues.planMvpName,
-      formattedValues.planAppAcronym,
-      formattedValues.planStartDate,
-      formattedValues.planEndDate,
-      appAcronym
-    );
+    // const createPlanResponse = await createPlan(
+    //   formattedValues.planMvpName,
+    //   formattedValues.planAppAcronym,
+    //   formattedValues.planStartDate,
+    //   formattedValues.planEndDate,
+    //   appAcronym
+    // );
 
-    if (createPlanResponse.success) {
-      setTimeout(() => {
-        toast.success("Plan added successfully");
-      }, 1);
+    // if (createPlanResponse.success) {
+    //   setTimeout(() => {
+    //     toast.success("Plan added successfully");
+    //   }, 1);
 
-      navigate(`/applications/${appAcronym}`);
-    } else {
-      toast.error("Error creating plan");
-    }
+    //   navigate(`/applications/${appAcronym}`);
+    // } else {
+    //   toast.error("Error creating plan");
+    // }
   }
 
   const disabledDate = (current) => {
@@ -157,6 +158,16 @@ export default function CreatePlan() {
             disabledDate={disabledDate}
             format="YYYY-MM-DD"
           ></RangePicker>
+        </Form.Item>
+
+        <Form.Item
+          label="Plan Colour"
+          style={{
+            maxWidth: 600,
+          }}
+          name="planColour"
+        >
+          <ColorPicker />
         </Form.Item>
 
         {/* <Form.Item

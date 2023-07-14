@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./kanbancard.css";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 export default function KanbanCard(props) {
-  const { task, appAcronym, planName } = props;
+  const { task, appAcronym, planName, planColour } = props;
   const navigate = useNavigate();
 
   return (

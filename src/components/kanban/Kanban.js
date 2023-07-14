@@ -31,9 +31,6 @@ export default function Kanban() {
   return (
     <Page>
       <KanbanHeader />
-
-      {planName && <div>Selected plan is {planName}</div>}
-      {appAcronym && <div>Selected app is {appAcronym}</div>}
       <KanbanBody tasks={tasks} planName={planName} appAcronym={appAcronym} />
     </Page>
   );
