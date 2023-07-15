@@ -55,23 +55,24 @@ export default function CreatePlan() {
       planEndDate: values.planDates[1].format("YYYY-MM-DD"),
     };
     console.log(formattedValues);
-    // const createPlanResponse = await createPlan(
-    //   formattedValues.planMvpName,
-    //   formattedValues.planAppAcronym,
-    //   formattedValues.planStartDate,
-    //   formattedValues.planEndDate,
-    //   appAcronym
-    // );
+    const createPlanResponse = await createPlan(
+      formattedValues.planMvpName,
+      formattedValues.planAppAcronym,
+      formattedValues.planStartDate,
+      formattedValues.planEndDate,
+      appAcronym,
+      formattedValues.planColour
+    );
 
-    // if (createPlanResponse.success) {
-    //   setTimeout(() => {
-    //     toast.success("Plan added successfully");
-    //   }, 1);
+    if (createPlanResponse.success) {
+      setTimeout(() => {
+        toast.success("Plan added successfully");
+      }, 1);
 
-    //   navigate(`/applications/${appAcronym}`);
-    // } else {
-    //   toast.error("Error creating plan");
-    // }
+      navigate(`/applications/${appAcronym}`);
+    } else {
+      toast.error(createPlanResponse.message);
+    }
   }
 
   const disabledDate = (current) => {
@@ -136,13 +137,17 @@ export default function CreatePlan() {
           <Input disabled={true} />
         </Form.Item>
 
-        <Form.Item label="Plan MVP name" name="planMvpName">
-          <TextArea
-            autoSize={{
-              minRows: 3,
-              maxRows: 5,
-            }}
-          />
+        <Form.Item
+          label="Plan MVP name"
+          name="planMvpName"
+          rules={[
+            {
+              required: true,
+              message: "Plan Start Date is required",
+            },
+          ]}
+        >
+          <Input />
         </Form.Item>
 
         <Form.Item

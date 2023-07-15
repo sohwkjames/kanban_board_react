@@ -6,7 +6,8 @@ export async function createPlan(
   planAppAcronym,
   planStartdate,
   planEnddate,
-  appAcronym
+  appAcronym,
+  planColour
 ) {
   const token = localStorage.getItem("jwt");
   const response = await axios.post(
@@ -17,6 +18,7 @@ export async function createPlan(
       planStartdate,
       planEnddate,
       appAcronym,
+      planColour,
     },
     token && {
       headers: {

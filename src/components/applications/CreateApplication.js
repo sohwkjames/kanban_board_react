@@ -158,11 +158,9 @@ export default function CreateApplication(props) {
           <RangePicker format="YYYY-MM-DD" />
         </Form.Item>
 
-        <h3>
-          For each task state, which user group can take actions on the task?
-        </h3>
+        <h3>Configure which actions can be performed by which user group</h3>
 
-        <Form.Item label="Creating a task" name="appPermitCreate">
+        <Form.Item label="Creating a task " name="appPermitCreate">
           <Select
             showSearch
             optionFilterProp="children"
@@ -175,7 +173,10 @@ export default function CreateApplication(props) {
           />
         </Form.Item>
 
-        <Form.Item label="Send task from open to to-do" name="appPermitOpen">
+        <Form.Item
+          label="Send task from open to to-do, and create plans"
+          name="appPermitOpen"
+        >
           <Select
             showSearch
             optionFilterProp="children"
@@ -218,7 +219,7 @@ export default function CreateApplication(props) {
         </Form.Item>
 
         <Form.Item
-          label="Send task from done to approved, or send task from done to closed"
+          label="Send task from done to doing, or send task from done to closed"
           name="appPermitDone"
         >
           <Select
@@ -239,7 +240,7 @@ export default function CreateApplication(props) {
             span: 16,
           }}
         >
-          <Button>Cancel</Button>
+          <Button onClick={() => navigate("/applications")}>Cancel</Button>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>

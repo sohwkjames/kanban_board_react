@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  editApplication,
   getApplication,
   getEarliestEndDate,
   getLatestEndDate,
@@ -10,15 +11,22 @@ import { ToastContainer, toast } from "react-toastify";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
 import TextArea from "antd/es/input/TextArea";
+import { getAllUserGroups } from "../../urls/userGroups";
+import Page from "../page/Page";
 
 export default function EditApplication(props) {
   const [latestEndDate, setLatestEndDate] = useState();
   const [appEndDate, setAppEndDate] = useState();
+  const [userGroups, setUserGroups] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [unauthorized, setUnauthorized] = useState(false);
+
   const { appAcronym } = useParams();
   const [form] = useForm();
   const navigate = useNavigate();
   useEffect(() => {
     fireApis();
+    populateUserGroups();
 
     form.setFieldValue("appAcronym", appAcronym);
     form.setFieldValue("appEndDate", dayjs(appEndDate));
@@ -31,20 +39,54 @@ export default function EditApplication(props) {
     }
 
     const latestEndDateResponse = await getLatestEndDate(appAcronym);
-
+    console.log("latestEndDateResponse", latestEndDateResponse);
     if (latestEndDateResponse.success) {
       setLatestEndDate(latestEndDateResponse.data);
     }
   }
 
-  async function onFinish(vals) {
-    console.log("onFInish vals", vals);
+  async function populateUserGroups() {
+    try {
+      const result = await getAllUserGroups();
+      setUserGroups(result.userGroups);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  // Only enable days that is later than the plan with the furthest away end date.
+  async function onFinish(values) {
+    const vals = {
+      ...values,
+      appEnddate: values.appEnddate.format("YYYY-MM-DD"),
+    };
+
+    const response = await editApplication(
+      vals.appAcronym,
+      vals.appDescription,
+      vals.appEnddate,
+      vals.appPermitCreate,
+      vals.appPermitOpen,
+      vals.appPermitTodolist,
+      vals.appPermitDoing,
+      vals.appPermitDone
+    );
+
+    if (response.success) {
+      navigate("/applications");
+      setTimeout(() => {
+        toast.success("App edited successfully");
+      }, 1);
+    }
+    if (!response.success) {
+      toast.error(response.message);
+    }
+  }
+
+  // Disable dates that are later than the earliest plan end date.
   const disabledDate = (current) => {
-    // Disable days
-    if (current < dayjs(latestEndDate)) {
+    // returning true disables a date
+    if (latestEndDate && current < dayjs(latestEndDate)) {
       return true;
     }
     // disable days before today
@@ -55,10 +97,20 @@ export default function EditApplication(props) {
   };
 
   return (
-    <div>
+    <Page>
       <div>
         <h2>Edit App {appAcronym}</h2>
         <Form
+          layout="vertical"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          style={{
+            maxWidth: 600,
+          }}
           form={form}
           name="editAplication"
           onFinish={onFinish}
@@ -84,10 +136,98 @@ export default function EditApplication(props) {
 
           <Form.Item
             label="App end date"
-            name="appEndDate"
+            name="appEnddate"
             rules={[{ required: true, message: "App end date is required" }]}
           >
             <DatePicker format="YYYY-MM-DD" disabledDate={disabledDate} />
+          </Form.Item>
+          <h3>Configure which actions can be performed by which user group</h3>
+
+          <Form.Item label="Creating a task " name="appPermitCreate">
+            <Select
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={userGroups.map((groupName) => {
+                return { value: groupName, label: groupName };
+              })}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Send task from open to to-do, and create plans"
+            name="appPermitOpen"
+          >
+            <Select
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={userGroups.map((groupName) => {
+                return { value: groupName, label: groupName };
+              })}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Send task from to-do to doing, and from doing to to-do."
+            name="appPermitTodolist"
+          >
+            <Select
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={userGroups.map((groupName) => {
+                return { value: groupName, label: groupName };
+              })}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Send task from doing to done."
+            name="appPermitDoing"
+          >
+            <Select
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={userGroups.map((groupName) => {
+                return { value: groupName, label: groupName };
+              })}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Send task from done to doing, or send task from done to closed"
+            name="appPermitDone"
+          >
+            <Select
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={userGroups.map((groupName) => {
+                return { value: groupName, label: groupName };
+              })}
+            />
           </Form.Item>
 
           <Space>
@@ -102,9 +242,9 @@ export default function EditApplication(props) {
               </Button>
             </Form.Item>
           </Space>
-          <ToastContainer position="bottom-right" />
+          <ToastContainer position="bottom-right" theme="colored" />
         </Form>
       </div>
-    </div>
+    </Page>
   );
 }

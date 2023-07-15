@@ -66,6 +66,39 @@ export async function createApplication(
   return response.data;
 }
 
+export async function editApplication(
+  appAcronym,
+  appDescription,
+  appEnddate,
+  appPermitCreate,
+  appPermitOpen,
+  appPermitTodolist,
+  appPermitDoing,
+  appPermitDone
+) {
+  const token = localStorage.getItem("jwt");
+  const response = await axios.put(
+    baseUrl + "/applications",
+    {
+      appAcronym,
+      appDescription,
+      appEnddate,
+      appPermitCreate,
+      appPermitOpen,
+      appPermitTodolist,
+      appPermitDoing,
+      appPermitDone,
+    },
+    token && {
+      headers: {
+        authorization: "Bearer token " + token,
+      },
+    }
+  );
+
+  return response.data;
+}
+
 // Takes an appAcronym, returns the enddate of the earliest ending Plan
 export async function getEarliestEndDate(appAcronym) {
   const token = localStorage.getItem("jwt");
