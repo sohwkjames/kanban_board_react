@@ -39,3 +39,14 @@ export async function checkGroup(groupname) {
 
   return response.data;
 }
+
+export async function getMyUserGroups() {
+  const token = localStorage.getItem("jwt");
+
+  const response = await axios.get(
+    baseUrl + "/my-usergroups",
+    token ? { headers: { authorization: "Bearer token " + token } } : {}
+  );
+
+  return response.data;
+}

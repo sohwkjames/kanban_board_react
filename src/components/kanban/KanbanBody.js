@@ -2,11 +2,50 @@ import KanbanCard from "./KanbanCard";
 import "./kanbanbody.css";
 import { TASK_STATES } from "../../constants/taskState";
 import { ToastContainer } from "react-toastify";
+import { useEffect, useState } from "react";
+import { getApplication } from "../../urls/applications";
+import { getMyUserGroups } from "../../urls/userGroups";
 
 export default function KabanBody(props) {
   const { tasks, planName, appAcronym } = props;
+  const [userGroups, setUsergroups] = useState([]);
+  const [userGroupOpen, setUserGroupOpen] = useState("");
 
-  console.log("kanbanbody props", props);
+  const [userGroupTodo, setUserGroupTodo] = useState("");
+
+  const [userGroupDoing, setUserGroupDoing] = useState("");
+
+  // const [usergroupOpen, setUsergroupOpen] = useState('')
+
+  useEffect(() => {
+    fireGetApplication();
+    fireGetMyUserGroup();
+  }, []);
+  // Get this application's usergroup for App_permit_open, App_permit_todo etc.
+  async function fireGetApplication() {
+    const applicationResponse = await getApplication(appAcronym);
+    console.log("application", applicationResponse);
+
+    if (applicationResponse.success) {
+      setUserGroupOpen(applicationResponse.data[0].App_permit_open);
+      setUserGroupTodo(applicationResponse.data[0].App_permit_todo);
+      setUserGroupDoing(applicationResponse.data[0].App_permit_doing);
+      // setUserGroupTodo(applicationResponse.data[0].App_permit_todo);
+      // setUserGroupTodo(applicationResponse.data[0].App_permit_todo);
+    }
+  }
+
+  async function fireGetMyUserGroup() {
+    const userResponse = await getMyUserGroups();
+    console.log("user response", userResponse);
+    if (userResponse.success) {
+      setUsergroups(userResponse.data);
+    }
+  }
+  // Get this user's usergroup.
+
+  // Client side handle the button.
+
   let openTasks;
   let todoTasks;
   let doingTasks;
@@ -45,9 +84,10 @@ export default function KabanBody(props) {
             {openTasks.map((task, idx) => (
               <KanbanCard
                 task={task}
-                planName={planName}
-                appAcronym={appAcronym}
                 key={idx}
+                renderDemote={false}
+                renderEdit={userGroups.includes(userGroupOpen)}
+                renderPromote={userGroups.includes(userGroupOpen)}
               />
             ))}
           </div>
@@ -57,9 +97,10 @@ export default function KabanBody(props) {
           {todoTasks.map((task, idx) => (
             <KanbanCard
               task={task}
-              planName={planName}
-              appAcronym={appAcronym}
               key={idx}
+              // renderDemote={}
+              // renderEdit={}
+              // renderPromote={}
             />
           ))}
         </div>
@@ -68,9 +109,10 @@ export default function KabanBody(props) {
           {doingTasks.map((task, idx) => (
             <KanbanCard
               task={task}
-              planName={planName}
-              appAcronym={appAcronym}
               key={idx}
+              // renderDemote={}
+              // renderEdit={}
+              // renderPromote={}
             />
           ))}
         </div>
@@ -79,9 +121,10 @@ export default function KabanBody(props) {
           {doneTasks.map((task, idx) => (
             <KanbanCard
               task={task}
-              planName={planName}
-              appAcronym={appAcronym}
               key={idx}
+              // renderDemote={}
+              // renderEdit={}
+              // renderPromote={}
             />
           ))}
         </div>
@@ -90,9 +133,10 @@ export default function KabanBody(props) {
           {closedTasks.map((task) => (
             <KanbanCard
               task={task}
-              planName={planName}
-              appAcronym={appAcronym}
               key={task}
+              renderDemote={true}
+              renderEdit={true}
+              renderPromote={false}
             />
           ))}
         </div>

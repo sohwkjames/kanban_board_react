@@ -96,7 +96,8 @@ export default function CreateTask() {
 
       navigate(`/applications/${appAcronym}`);
     } else {
-      toast.error("Error creating task");
+      if (result.message) toast.error(result.message);
+      else toast.error("Error creating task");
     }
   }
 

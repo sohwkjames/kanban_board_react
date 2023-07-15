@@ -13,6 +13,10 @@ import dayjs from "dayjs";
 import TextArea from "antd/es/input/TextArea";
 import { getAllUserGroups } from "../../urls/userGroups";
 import Page from "../page/Page";
+import Spinner from "../layout/Spinner";
+import UnverifiedUser from "../unverifieduser/UnverifiedUser";
+import { checkUserCanPerformAction } from "../../urls/tasks";
+import { checkUserGroup } from "../../urls/auth";
 
 export default function EditApplication(props) {
   const [latestEndDate, setLatestEndDate] = useState();
@@ -25,11 +29,23 @@ export default function EditApplication(props) {
   const [form] = useForm();
   const navigate = useNavigate();
   useEffect(() => {
-    fireApis();
+    getApplicationData();
     populateUserGroups();
+    checkRoute();
   }, []);
 
-  async function fireApis() {
+  async function checkRoute() {
+    // Only project lead can access this page
+    const result = await checkUserGroup("projectLead");
+    if (result.success) {
+      setUnauthorized(false);
+    } else {
+      setUnauthorized(true);
+    }
+    setLoading(false);
+  }
+
+  async function getApplicationData() {
     const appDataResponse = await getApplication(appAcronym);
     // Handle pre filled form
     if (appDataResponse.success) {
@@ -38,6 +54,7 @@ export default function EditApplication(props) {
       setAppEndDate(appDataResponse.data[0].App_enddate);
       form.setFieldsValue({
         appAcronym,
+        appDescription: application.App_description,
         appEnddate: dayjs(application.App_enddate),
         appPermitCreate: application.App_permit_create,
         appPermitDoing: application.App_permit_doing,
@@ -104,6 +121,16 @@ export default function EditApplication(props) {
     }
     return false;
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (unauthorized) {
+    return (
+      <UnverifiedUser message="You do not have permission to access this resource" />
+    );
+  }
 
   return (
     <Page>
