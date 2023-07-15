@@ -39,6 +39,8 @@ export default function Kanban() {
       fireGetTaskByPlan(planNameQueryParam);
     } else if (selectedPlan) {
       fireGetTaskByPlan(selectedPlan.Plan_mvp_name);
+    } else {
+      fireGetTaskByApp();
     }
   }, [selectedPlan]);
 
@@ -113,6 +115,8 @@ export default function Kanban() {
   plansMenu.splice(0, 0, { key: "SELECT_PLAN", label: "Select Plan" });
 
   const onClick = ({ key }) => {
+    console.log("onClick firing", key);
+    console.log("onClick firing", plans);
     const result = plans.filter((p) => p.Plan_mvp_name === key);
 
     if (key === "SELECT_PLAN") {
@@ -127,33 +131,30 @@ export default function Kanban() {
     }
   };
 
-  console.log("tasks", tasks);
-
   return (
     <Page>
       <div className="heading">
         <div className="appname">
           <h3>{appAcronym}</h3>
-          <h3>{selectedPlan && selectedPlan.Plan_mvp_name}</h3>
         </div>
         <div className="right-side">
-          <div className="planlist">
-            <Dropdown
-              menu={{
-                items: plansMenu,
-                onClick,
-              }}
-            >
-              <a onClick={(e) => e.preventDefault()}>
-                {" "}
-                <Space>
-                  {selectedPlan ? selectedPlan.Plan_mvp_name : "Select Plan"}
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
-          </div>
           <div className="date">
+            <div className="planlist">
+              <Dropdown
+                menu={{
+                  items: plansMenu,
+                  onClick,
+                }}
+              >
+                <a onClick={(e) => e.preventDefault()}>
+                  {" "}
+                  <Space>
+                    {selectedPlan ? selectedPlan.Plan_mvp_name : "Select Plan"}
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
+            </div>
             <p>Start date: {selectedPlan?.Plan_startdate}</p>
             <p>End date: {selectedPlan?.Plan_enddate}</p>
           </div>

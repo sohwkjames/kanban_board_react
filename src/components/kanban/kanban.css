@@ -1,17 +1,22 @@
 .heading {
-  border: 1px solid black;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   border-radius: 1em;
+  border: 1px solid black;
 }
 
 .right-side {
   min-width: 800px;
   display: flex;
-  justify-content: space-between;
-  border: 1px solid black;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.planlist {
+  width: 200px;
+  max-width: 200px;
 }
 
 .right-side > * {
@@ -20,4 +25,5 @@
 
 .appname {
   padding: 1em;
+  align-items: baseline;
 }

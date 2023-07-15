@@ -22,7 +22,6 @@ export default function CreateApplication(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Firing CreateApplication useEffect");
     populateUserGroups();
     checkRoute();
   }, []);
@@ -40,6 +39,7 @@ export default function CreateApplication(props) {
   }
 
   async function checkRoute() {
+    // This is hardcoded to projectLead when app is shipped.
     const result = await checkUserGroup("projectLead");
     console.log("checkROute result", result);
     if (result.success) {

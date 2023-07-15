@@ -48,25 +48,28 @@ export default function Login() {
 
   return (
     <Page>
-      <div className="">
-        <h1>Login</h1>
-        <div className="form">
-          <label>Username</label>
+      <div className="login-container">
+        <div className="">
+          <h1>Login</h1>
+          <div className="form">
+            <label>Username</label>
 
-          <Input onChange={(e) => setUsername(e.target.value)}></Input>
-          <label>Password</label>
-          <Input.Password
-            onChange={(e) => setPassword(e.target.value)}
-          ></Input.Password>
+            <Input onChange={(e) => setUsername(e.target.value)}></Input>
+            <label>Password</label>
+            <Input.Password
+              onChange={(e) => setPassword(e.target.value)}
+            ></Input.Password>
+          </div>
+          <Button loading={loading} type="primary" onClick={handleSubmit}>
+            Submit
+          </Button>
+          {isError && (
+            <p style={{ color: colourScheme.red }}>
+              Invalid username or password
+            </p>
+          )}
         </div>
-        <Button loading={loading} type="primary" onClick={handleSubmit}>
-          Submit
-        </Button>
-        {isError && (
-          <p style={{ color: colourScheme.red }}>
-            Invalid username or password
-          </p>
-        )}
+        {/* <img src="/login_art.svg"></img> */}
       </div>
     </Page>
   );

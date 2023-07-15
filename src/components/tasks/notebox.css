@@ -1,7 +1,8 @@
 .notebox {
   border: 1px solid black;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  padding: 0.5em;
 }
 
 .left-col {
@@ -12,4 +13,13 @@
 
 .right-col {
   padding: 1em;
+}
+
+.timestamps {
+  display: flex;
+  align-self: flex-end;
+}
+
+.timestamps > * {
+  padding-left: 1em;
 }

@@ -20,6 +20,7 @@ import Kanban from "./components/kanban/Kanban";
 import EditTask from "./components/tasks/EditTask";
 import PromoteTask from "./components/tasks/PromoteTask";
 import DemoteTask from "./components/tasks/DemoteTask";
+import ViewTask from "./components/tasks/ViewTask";
 
 function App() {
   const [state, dispatch] = useReducer(authReducer, initialReducerState);
@@ -68,6 +69,7 @@ function App() {
               <Route path="edit/:taskId" element={<EditTask />} />
               <Route path="promote/:taskId" element={<PromoteTask />} />
               <Route path="demote/:taskId" element={<DemoteTask />} />
+              <Route path="view/:taskId" element={<ViewTask />} />
             </Route>
           </Routes>
         </DispatchAuthContext.Provider>

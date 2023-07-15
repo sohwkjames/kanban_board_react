@@ -10,17 +10,31 @@ export default function KanbanCard(props) {
       style={{ borderLeft: `10px solid ${task.Plan_colour}` }}
       className="card"
     >
-      <span>Plan Colour: {task.Plan_colour}</span>
+      <span
+        className="card-title"
+        style={{ fontSize: "1.2em" }}
+        onClick={() => navigate(`/tasks/view/${task.Task_id}`)}
+      >
+        {task.Task_name}
+      </span>
 
-      <span>Task id: {task.Task_id}</span>
-      <span style={{ fontSize: "1.2em" }}>Task name: {task.Task_name}</span>
-      <p>Owner: {task.Task_owner}</p>
-      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+      <span style={{ color: "grey" }}>Task id: {task.Task_id}</span>
+      <span style={{ color: "grey" }}>Owner: {task.Task_owner}</span>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          marginTop: "auto",
+        }}
+      >
         <CaretLeftOutlined
           onClick={() => navigate(`/tasks/demote/${task.Task_id}`)}
           style={{ fontSize: "150%" }}
         />
-        <span onClick={() => navigate(`/tasks/edit/${task.Task_id}`)}>
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate(`/tasks/edit/${task.Task_id}`)}
+        >
           Edit
         </span>
         <CaretRightOutlined

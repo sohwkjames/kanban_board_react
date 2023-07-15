@@ -34,6 +34,7 @@ export default function CreatePlan() {
   }
 
   async function checkRoute() {
+    // App_permit_open is the "project manager" role.
     const result = await checkUserCanPerformAction(
       appAcronym,
       "App_permit_open"

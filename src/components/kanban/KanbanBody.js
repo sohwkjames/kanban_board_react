@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 export default function KabanBody(props) {
   const { tasks, planName, appAcronym } = props;
 
+  console.log("kanbanbody props", props);
   let openTasks;
   let todoTasks;
   let doingTasks;
@@ -41,42 +42,46 @@ export default function KabanBody(props) {
         <div className="kanban-body-column">
           <div>
             <h3>Open</h3>
-            {openTasks.map((task) => (
+            {openTasks.map((task, idx) => (
               <KanbanCard
                 task={task}
                 planName={planName}
                 appAcronym={appAcronym}
+                key={idx}
               />
             ))}
           </div>
         </div>
         <div className="kanban-body-column">
           <h3>Todo</h3>
-          {todoTasks.map((task) => (
+          {todoTasks.map((task, idx) => (
             <KanbanCard
               task={task}
               planName={planName}
               appAcronym={appAcronym}
+              key={idx}
             />
           ))}
         </div>
         <div className="kanban-body-column">
           <h3>Doing</h3>{" "}
-          {doingTasks.map((task) => (
+          {doingTasks.map((task, idx) => (
             <KanbanCard
               task={task}
               planName={planName}
               appAcronym={appAcronym}
+              key={idx}
             />
           ))}
         </div>
         <div className="kanban-body-column">
           <h3>Done</h3>
-          {doneTasks.map((task) => (
+          {doneTasks.map((task, idx) => (
             <KanbanCard
               task={task}
               planName={planName}
               appAcronym={appAcronym}
+              key={idx}
             />
           ))}
         </div>
@@ -87,10 +92,12 @@ export default function KabanBody(props) {
               task={task}
               planName={planName}
               appAcronym={appAcronym}
+              key={task}
             />
           ))}
         </div>
       </div>
+      {tasks.length === 0 && <h3>This application currently has no tasks.</h3>}
       <ToastContainer position="bottom-right" />
     </div>
   );
