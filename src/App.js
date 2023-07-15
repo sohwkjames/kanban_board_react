@@ -21,6 +21,7 @@ import EditTask from "./components/tasks/EditTask";
 import PromoteTask from "./components/tasks/PromoteTask";
 import DemoteTask from "./components/tasks/DemoteTask";
 import ViewTask from "./components/tasks/ViewTask";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [state, dispatch] = useReducer(authReducer, initialReducerState);
@@ -74,6 +75,12 @@ function App() {
           </Routes>
         </DispatchAuthContext.Provider>
       </AuthContext.Provider>
+      <ToastContainer
+        theme="colored"
+        position="bottom-right"
+        autoClose={2500}
+        pauseOnHover={false}
+      />
     </div>
   );
 }

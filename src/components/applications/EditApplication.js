@@ -27,15 +27,24 @@ export default function EditApplication(props) {
   useEffect(() => {
     fireApis();
     populateUserGroups();
-
-    form.setFieldValue("appAcronym", appAcronym);
-    form.setFieldValue("appEndDate", dayjs(appEndDate));
   }, []);
 
   async function fireApis() {
     const appDataResponse = await getApplication(appAcronym);
+    // Handle pre filled form
     if (appDataResponse.success) {
+      const application = appDataResponse.data[0];
+      console.log("application", application);
       setAppEndDate(appDataResponse.data[0].App_enddate);
+      form.setFieldsValue({
+        appAcronym,
+        appEnddate: dayjs(application.App_enddate),
+        appPermitCreate: application.App_permit_create,
+        appPermitDoing: application.App_permit_doing,
+        appPermitDone: application.App_permit_done,
+        appPermitOpen: application.App_permit_open,
+        appPermitTodolist: application.App_permit_todolist,
+      });
     }
 
     const latestEndDateResponse = await getLatestEndDate(appAcronym);
