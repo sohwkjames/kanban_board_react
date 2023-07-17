@@ -51,6 +51,11 @@ export default function DemoteTask() {
         setUnauthorized(true);
       }
 
+      // Cannot demote beyond "open" state
+      if (taskState === "open") {
+        setUnauthorized(true);
+      }
+
       form.setFieldsValue({
         taskName: task.Task_name,
         taskDescription: task.Task_description,

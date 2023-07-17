@@ -52,6 +52,11 @@ export default function PromoteTask() {
         setUnauthorized(true);
       }
 
+      // Cannot promote beyond "closed" state
+      if (taskState === "closed") {
+        setUnauthorized(true);
+      }
+
       form.setFieldsValue({
         taskName: task.Task_name,
         taskDescription: task.Task_description,
