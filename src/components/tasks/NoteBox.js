@@ -2,7 +2,6 @@ import { colourScheme } from "../../utils/colorScheme";
 import "./notebox.css";
 
 export default function NoteBox({ note }) {
-  console.log("note", note);
   return (
     <div className="notebox">
       <div>
