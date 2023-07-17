@@ -7,13 +7,14 @@ import { useForm } from "antd/es/form/Form";
 import {
   checkUserCanPerformAction,
   demoteTask,
-  editTask,
   getTask,
-  promoteTask,
 } from "../../urls/tasks";
 import TextArea from "antd/es/input/TextArea";
 import { getPlanByAppAcronym } from "../../urls/plans";
 import NoteBox from "./NoteBox";
+import { ACTION_PERMISSION_COLUMNS } from "../../constants/taskState";
+import Spinner from "../layout/Spinner";
+import UnverifiedUser from "../unverifieduser/UnverifiedUser";
 
 // EditTask page has no promote / demote funciton.
 // Only serve to edit task name, task desc, task plan, task notes.
@@ -59,6 +60,7 @@ export default function DemoteTask() {
         setNotes(task.Task_notes);
       }
     }
+    setLoading(false);
   }
 
   async function getAvailablePlans() {
