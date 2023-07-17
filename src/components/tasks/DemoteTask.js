@@ -16,14 +16,18 @@ import { ACTION_PERMISSION_COLUMNS } from "../../constants/taskState";
 import Spinner from "../layout/Spinner";
 import UnverifiedUser from "../unverifieduser/UnverifiedUser";
 
-// EditTask page has no promote / demote funciton.
-// Only serve to edit task name, task desc, task plan, task notes.
+const ACTION_WORDS = {
+  doing: "return",
+  done: "reject",
+};
+
 export default function DemoteTask() {
   const { taskId } = useParams();
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
   const [notes, setNotes] = useState([]);
   const [editPlanDisabled, setEditPlanDisabled] = useState(true);
+  const [actionWord, setActionWord] = useState("");
   const [loading, setLoading] = useState(true);
   const [unauthorized, setUnauthorized] = useState(false);
   const [form] = useForm();

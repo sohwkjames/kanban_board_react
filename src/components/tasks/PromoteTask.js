@@ -17,14 +17,21 @@ import { ACTION_PERMISSION_COLUMNS } from "../../constants/taskState";
 import Spinner from "../layout/Spinner";
 import UnverifiedUser from "../unverifieduser/UnverifiedUser";
 
-// EditTask page has no promote / demote funciton.
-// Only serve to edit task name, task desc, task plan, task notes.
+const ACTION_WORDS = {
+  open: "release",
+  todo: "promote",
+  doing: "promote",
+  done: "approve",
+};
+
 export default function PromoteTask() {
   const { taskId } = useParams();
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
   const [notes, setNotes] = useState([]);
   const [editPlanDisabled, setEditPlanDisabled] = useState(true);
+  const [actionWord, setActionWord] = useState("");
+
   const [loading, setLoading] = useState(true);
   const [unauthorized, setUnauthorized] = useState(false);
   const [form] = useForm();
@@ -56,6 +63,8 @@ export default function PromoteTask() {
       if (taskState === "closed") {
         setUnauthorized(true);
       }
+
+      setActionWord(ACTION_WORDS[taskState]);
 
       form.setFieldsValue({
         taskName: task.Task_name,
@@ -92,7 +101,7 @@ export default function PromoteTask() {
     );
     if (promoteResponse.success) {
       setTimeout(() => {
-        toast.success("Task promoted successfully");
+        toast.success(`Task ${actionWord} successfully`);
       }, 1);
 
       navigate(`/applications/${appAcronym}`);
@@ -117,7 +126,9 @@ export default function PromoteTask() {
 
   return (
     <Page>
-      <h3>Promote Task {taskId}</h3>
+      <h3>
+        {actionWord} Task {taskId}
+      </h3>
       <Form form={form} onFinish={onFinish} autoComplete="off">
         <Form.Item
           label="Task Name"
@@ -173,7 +184,7 @@ export default function PromoteTask() {
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-              Submit and promote task
+              Submit and {actionWord} task
             </Button>
           </Form.Item>
         </Space>
