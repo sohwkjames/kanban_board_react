@@ -6,6 +6,7 @@
   height: 120px;
   margin-bottom: 1em;
   outline: 1px solid black;
+  max-width: 250px;
 }
 
 .card-title {
@@ -15,7 +16,7 @@
   transition: 1s;
   text-overflow: ellipsis;
   display: -webkit-box;
-  max-width: 250px;
+  max-width: 200px;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
