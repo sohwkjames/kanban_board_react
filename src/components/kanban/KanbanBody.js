@@ -144,7 +144,7 @@ export default function KabanBody(props) {
       {tasks.length === 0 && (
         <h3>This application/plan currently has no tasks.</h3>
       )}
-      <ToastContainer position="bottom-right" />
+      {/* <ToastContainer position="bottom-right" /> */}
     </div>
   );
 }

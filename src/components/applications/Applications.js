@@ -129,7 +129,7 @@ export default function Applications() {
       </div>
 
       <Table dataSource={applications} columns={columns} />
-      <ToastContainer position="bottom-right" theme="colored" />
+      {/* <ToastContainer position="bottom-right" theme="colored" /> */}
     </Page>
   );
 }

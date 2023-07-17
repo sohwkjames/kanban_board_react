@@ -278,7 +278,7 @@ export default function EditApplication(props) {
               </Button>
             </Form.Item>
           </Space>
-          <ToastContainer position="bottom-right" theme="colored" />
+          {/* <ToastContainer position="bottom-right" theme="colored" /> */}
         </Form>
       </div>
     </Page>

@@ -27,7 +27,7 @@ export default function CreateUserGroups({ setUserGroups, updateParentData }) {
       <p>Create User Group</p>
       <Input onChange={(e) => setGroupName(e.target.value)}></Input>
       <Button onClick={handleAddGroup}>Add group</Button>
-      <ToastContainer position="bottom-right" theme="colored" />
+      {/* <ToastContainer position="bottom-right" theme="colored" /> */}
     </div>
   );
 }

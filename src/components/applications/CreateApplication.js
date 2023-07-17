@@ -246,7 +246,7 @@ export default function CreateApplication(props) {
           </Button>
         </Form.Item>
       </Form>
-      <ToastContainer position="bottom-right" theme="colored" />
+      {/* <ToastContainer position="bottom-right" theme="colored" /> */}
     </Page>
   );
 }
