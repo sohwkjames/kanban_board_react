@@ -10,10 +10,10 @@ export default function KabanBody(props) {
   const { tasks, planName, appAcronym } = props;
   const [userGroups, setUsergroups] = useState([]);
   const [userGroupOpen, setUserGroupOpen] = useState("");
-
   const [userGroupTodo, setUserGroupTodo] = useState("");
-
   const [userGroupDoing, setUserGroupDoing] = useState("");
+  const [userGroupDone, setUserGroupDone] = useState("");
+  const [userGroupClosed, setUserGroupClosed] = useState("");
 
   // const [usergroupOpen, setUsergroupOpen] = useState('')
 
@@ -28,10 +28,10 @@ export default function KabanBody(props) {
 
     if (applicationResponse.success) {
       setUserGroupOpen(applicationResponse.data[0].App_permit_open);
-      setUserGroupTodo(applicationResponse.data[0].App_permit_todo);
+      setUserGroupTodo(applicationResponse.data[0].App_permit_todolist);
       setUserGroupDoing(applicationResponse.data[0].App_permit_doing);
-      // setUserGroupTodo(applicationResponse.data[0].App_permit_todo);
-      // setUserGroupTodo(applicationResponse.data[0].App_permit_todo);
+      setUserGroupDone(applicationResponse.data[0].App_permit_done);
+      setUserGroupClosed(applicationResponse.data[0].App_permit_closed);
     }
   }
 
@@ -98,9 +98,9 @@ export default function KabanBody(props) {
             <KanbanCard
               task={task}
               key={idx}
-              // renderDemote={}
-              // renderEdit={}
-              // renderPromote={}
+              renderDemote={false}
+              renderEdit={userGroups.includes(userGroupTodo)}
+              renderPromote={userGroups.includes(userGroupTodo)}
             />
           ))}
         </div>
@@ -110,9 +110,9 @@ export default function KabanBody(props) {
             <KanbanCard
               task={task}
               key={idx}
-              // renderDemote={}
-              // renderEdit={}
-              // renderPromote={}
+              renderDemote={userGroups.includes(userGroupDoing)}
+              renderEdit={userGroups.includes(userGroupDoing)}
+              renderPromote={userGroups.includes(userGroupDoing)}
             />
           ))}
         </div>
@@ -122,9 +122,9 @@ export default function KabanBody(props) {
             <KanbanCard
               task={task}
               key={idx}
-              // renderDemote={}
-              // renderEdit={}
-              // renderPromote={}
+              renderDemote={userGroups.includes(userGroupDone)}
+              renderEdit={userGroups.includes(userGroupDone)}
+              renderPromote={userGroups.includes(userGroupDone)}
             />
           ))}
         </div>
@@ -134,14 +134,16 @@ export default function KabanBody(props) {
             <KanbanCard
               task={task}
               key={task}
-              renderDemote={true}
-              renderEdit={true}
+              renderDemote={false}
+              renderEdit={false}
               renderPromote={false}
             />
           ))}
         </div>
       </div>
-      {tasks.length === 0 && <h3>This application currently has no tasks.</h3>}
+      {tasks.length === 0 && (
+        <h3>This application/plan currently has no tasks.</h3>
+      )}
       <ToastContainer position="bottom-right" />
     </div>
   );
