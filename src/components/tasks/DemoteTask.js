@@ -4,7 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, Form, Input, Select, Space } from "antd";
 import { ToastContainer, toast } from "react-toastify";
 import { useForm } from "antd/es/form/Form";
-import { demoteTask, editTask, getTask, promoteTask } from "../../urls/tasks";
+import {
+  checkUserCanPerformAction,
+  demoteTask,
+  editTask,
+  getTask,
+  promoteTask,
+} from "../../urls/tasks";
 import TextArea from "antd/es/input/TextArea";
 import { getPlanByAppAcronym } from "../../urls/plans";
 import NoteBox from "./NoteBox";
@@ -16,20 +22,34 @@ export default function DemoteTask() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
   const [notes, setNotes] = useState([]);
-
-  // const [appAcronym, setAppAcronym ]
+  const [taskState, setTaskState] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [unauthorized, setUnauthorized] = useState(false);
   const [form] = useForm();
 
   useEffect(() => {
-    fireGetTask();
+    getTaskAndCheckPermissions();
     getAvailablePlans();
   }, []);
 
-  async function fireGetTask() {
+  async function getTaskAndCheckPermissions() {
     const response = await getTask(taskId);
     if (response.success) {
       const task = response.data[0];
-      console.log("task,", task);
+
+      const appAcronym = task.Task_app_acronym;
+      const taskState = task.Task_state;
+      const actionName = ACTION_PERMISSION_COLUMNS[taskState];
+
+      const permissionResponse = await checkUserCanPerformAction(
+        appAcronym,
+        actionName
+      );
+
+      if (!permissionResponse.success) {
+        setUnauthorized(true);
+      }
+
       form.setFieldsValue({
         taskName: task.Task_name,
         taskDescription: task.Task_description,
@@ -75,7 +95,23 @@ export default function DemoteTask() {
       }, 1);
 
       navigate(`/applications/${appAcronym}`);
+    } else {
+      toast.error(
+        demoteResponse?.message
+          ? demoteResponse.message
+          : "Failed to update this task"
+      );
     }
+  }
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (unauthorized) {
+    return (
+      <UnverifiedUser message="You are not allowed to access this resource" />
+    );
   }
 
   return (

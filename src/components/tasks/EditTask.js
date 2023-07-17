@@ -89,7 +89,9 @@ export default function EditTask() {
 
       navigate(`/applications/${appAcronym}`);
     } else {
-      toast.error(response.message);
+      toast.error(
+        response?.message ? response.message : "Failed to update task"
+      );
     }
   }
 

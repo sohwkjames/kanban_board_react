@@ -92,7 +92,11 @@ export default function PromoteTask() {
 
       navigate(`/applications/${appAcronym}`);
     } else {
-      toast.error(promoteResponse.message);
+      toast.error(
+        promoteResponse?.message
+          ? promoteResponse.message
+          : "Failed to update task"
+      );
     }
   }
 
