@@ -19,7 +19,7 @@ export default function EditTask() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
   const [notes, setNotes] = useState([]);
-  const [taskState, setTaskState] = useState("");
+  const [editPlanDisabled, setEditPlanDisabled] = useState(true);
   const [loading, setLoading] = useState(true);
   const [unauthorized, setUnauthorized] = useState(false);
 
@@ -39,6 +39,12 @@ export default function EditTask() {
       const appAcronym = task.Task_app_acronym;
       const taskState = task.Task_state;
       const actionName = ACTION_PERMISSION_COLUMNS[taskState];
+
+      if (taskState !== "open") {
+        setEditPlanDisabled(true);
+      } else {
+        setEditPlanDisabled(false);
+      }
 
       const permissionResponse = await checkUserCanPerformAction(
         appAcronym,
@@ -126,6 +132,7 @@ export default function EditTask() {
         </Form.Item>
         <Form.Item label="Task Plan" name="taskPlan">
           <Select
+            disabled={editPlanDisabled}
             options={plans.map((planName) => {
               return { label: planName, value: planName };
             })}

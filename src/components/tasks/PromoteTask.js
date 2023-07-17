@@ -24,7 +24,7 @@ export default function PromoteTask() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
   const [notes, setNotes] = useState([]);
-  const [taskState, setTaskState] = useState("");
+  const [editPlanDisabled, setEditPlanDisabled] = useState(true);
   const [loading, setLoading] = useState(true);
   const [unauthorized, setUnauthorized] = useState(false);
   const [form] = useForm();
@@ -138,6 +138,7 @@ export default function PromoteTask() {
 
         <Form.Item label="Task Plan" name="taskPlan">
           <Select
+            disabled={editPlanDisabled}
             options={plans.map((planName) => {
               return { label: planName, value: planName };
             })}
