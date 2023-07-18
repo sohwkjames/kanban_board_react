@@ -17,8 +17,8 @@ import Spinner from "../layout/Spinner";
 import UnverifiedUser from "../unverifieduser/UnverifiedUser";
 
 const ACTION_WORDS = {
-  doing: "return",
-  done: "reject",
+  doing: "Return task to to-do list",
+  done: "Reject task to doing",
 };
 
 export default function DemoteTask() {
@@ -65,6 +65,8 @@ export default function DemoteTask() {
       if (taskState === "open") {
         setUnauthorized(true);
       }
+
+      setActionWord(ACTION_WORDS[taskState]);
 
       form.setFieldsValue({
         taskName: task.Task_name,
@@ -133,7 +135,9 @@ export default function DemoteTask() {
 
   return (
     <Page>
-      <h3>Demote Task {taskId}</h3>
+      <h3>
+        {actionWord}: Task {taskId}
+      </h3>
       <Form form={form} onFinish={onFinish} autoComplete="off">
         <Form.Item
           label="Task Name"
@@ -189,7 +193,7 @@ export default function DemoteTask() {
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-              Submit and Demote task
+              Submit and {actionWord} task
             </Button>
           </Form.Item>
         </Space>
