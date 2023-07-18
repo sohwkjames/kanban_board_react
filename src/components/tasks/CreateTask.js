@@ -87,7 +87,7 @@ export default function CreateTask() {
       values.taskDescription,
       values.taskPlan,
       appAcronym,
-      TASK_STATES.open
+      values.notes
     );
     if (result.success) {
       setTimeout(() => {

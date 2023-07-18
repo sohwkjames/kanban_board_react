@@ -26,7 +26,7 @@ export async function addTask(
   taskDescription,
   taskPlan,
   taskAppAcronym,
-  taskState
+  taskNote
 ) {
   const token = localStorage.getItem("jwt");
   let response;
@@ -38,6 +38,7 @@ export async function addTask(
         taskDescription,
         taskPlan,
         appAcronym: taskAppAcronym,
+        taskNote,
       },
       {
         headers: {

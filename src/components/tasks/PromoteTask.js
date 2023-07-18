@@ -166,8 +166,10 @@ export default function PromoteTask() {
 
         <div>
           <h3>Notes</h3>
-          <div style={{ paddingBottom: "3em" }}>
-            {notes.map((note) => (
+          <div
+            style={{ paddingBottom: "3em", overflow: "auto", height: "200px" }}
+          >
+            {notes.toReversed().map((note) => (
               <NoteBox note={note} key={note} />
               // <div>{note.note}</div>
             ))}

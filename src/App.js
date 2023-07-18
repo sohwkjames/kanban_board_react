@@ -55,13 +55,10 @@ function App() {
                 path=":appAcronym/:planNameQueryParam"
                 element={<Kanban />}
               />
-
               <Route path="create" element={<CreateApplication />} />
             </Route>
 
             <Route path="/plans">
-              {/* <Route index element={<Applications />} /> */}
-              {/* <Route path=":appAcronym" element={<EditApplication />} /> */}
               <Route path="create/:appAcronym" element={<CreatePlan />} />
             </Route>
 

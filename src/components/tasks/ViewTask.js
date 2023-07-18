@@ -99,7 +99,7 @@ export default function ViewTask() {
             })}
           />
         </Form.Item>
-        <Form.Item label="Task Note" name="taskNote">
+        {/* <Form.Item label="Task Note" name="taskNote">
           <TextArea
             disabled
             autoSize={{
@@ -107,12 +107,14 @@ export default function ViewTask() {
               maxRows: 5,
             }}
           />
-        </Form.Item>
+        </Form.Item> */}
 
-        <div>
+        <div style={{}}>
           <h3>Notes</h3>
-          <div style={{ paddingBottom: "3em" }}>
-            {notes.map((note) => (
+          <div
+            style={{ paddingBottom: "3em", overflow: "auto", height: "200px" }}
+          >
+            {notes.toReversed().map((note) => (
               <NoteBox note={note} key={note} />
               // <div>{note.note}</div>
             ))}

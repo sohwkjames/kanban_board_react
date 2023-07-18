@@ -149,8 +149,10 @@ export default function EditTask() {
 
         <div>
           <h3>Notes</h3>
-          <div style={{ paddingBottom: "3em" }}>
-            {notes.map((note, idx) => (
+          <div
+            style={{ paddingBottom: "3em", overflow: "auto", height: "200px" }}
+          >
+            {notes.toReversed().map((note, idx) => (
               <NoteBox note={note} key={idx} />
               // <div>{note.note}</div>
             ))}
