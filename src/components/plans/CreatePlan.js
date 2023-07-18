@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, ColorPicker } from "antd";
+import { Button, DatePicker, Form, Input, ColorPicker, theme } from "antd";
 import dayjs from "dayjs";
 import Page from "../page/Page";
 import TextArea from "antd/es/input/TextArea";
@@ -11,17 +11,22 @@ import { checkProtectedRouteAccess } from "../../urls/auth";
 import { checkUserCanPerformAction } from "../../urls/tasks";
 import UnverifiedUser from "../unverifieduser/UnverifiedUser";
 import Spinner from "../layout/Spinner";
+import { useForm } from "antd/es/form/Form";
 
 export default function CreatePlan() {
+  const { token } = theme.useToken();
+
   useEffect(() => {
     getAppDetails();
     checkRoute();
+    form.setFieldValue("planColour", token.colorPrimary);
   }, []);
 
   const [appStartDate, setAppStartDate] = useState([]);
   const [appEndDate, setAppEndDate] = useState([]);
   const [unauthorized, setUnauthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [form] = useForm();
 
   const { appAcronym } = useParams();
   const navigate = useNavigate();
@@ -48,9 +53,15 @@ export default function CreatePlan() {
   }
 
   async function onFinish(values) {
+    console.log("planValues", values);
+    const formattedPlanColour =
+      typeof values.planColour === "string"
+        ? values.planColour
+        : values.planColour.toHexString();
+
     const formattedValues = {
       ...values,
-      planColour: values.planColour.toHexString(),
+      planColour: formattedPlanColour,
       planStartDate: values.planDates[0].format("YYYY-MM-DD"),
       planEndDate: values.planDates[1].format("YYYY-MM-DD"),
     };
@@ -110,6 +121,7 @@ export default function CreatePlan() {
     <Page>
       <h3>Create Plan</h3>
       <Form
+        form={form}
         name="basic"
         labelCol={{
           span: 8,
@@ -143,7 +155,7 @@ export default function CreatePlan() {
           rules={[
             {
               required: true,
-              message: "Plan Start Date is required",
+              message: "Plan MVP name is required",
             },
           ]}
         >
@@ -175,19 +187,6 @@ export default function CreatePlan() {
         >
           <ColorPicker />
         </Form.Item>
-
-        {/* <Form.Item
-          label="Plan End Date"
-          name="planEndDate"
-          rules={[
-            {
-              required: true,
-              message: "Plan End Date is required",
-            },
-          ]}
-        >
-          <DatePicker disabledDate={disabledEndDate} format="YYYY-MM-DD" />
-        </Form.Item> */}
 
         <Form.Item
           wrapperCol={{

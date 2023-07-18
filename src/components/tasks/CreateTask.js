@@ -210,7 +210,9 @@ export default function CreateTask() {
               span: 16,
             }}
           >
-            <Button>Cancel</Button>
+            <Button onClick={() => navigate(`/applications/${appAcronym}`)}>
+              Cancel
+            </Button>
           </Form.Item>
           <Form.Item
             wrapperCol={{

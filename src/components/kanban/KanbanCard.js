@@ -7,7 +7,11 @@ export default function KanbanCard(props) {
 
   return (
     <div
-      style={{ borderLeft: `10px solid ${task.Plan_colour}` }}
+      style={{
+        borderLeft: task.Plan_colour
+          ? `10px solid ${task.Plan_colour}`
+          : `10px solid white`,
+      }}
       className="card"
     >
       <span
