@@ -31,6 +31,7 @@ export default function PromoteTask() {
   const [notes, setNotes] = useState([]);
   const [editPlanDisabled, setEditPlanDisabled] = useState(true);
   const [actionWord, setActionWord] = useState("");
+  const [currentTask, setCurrentTask] = useState();
 
   const [loading, setLoading] = useState(true);
   const [unauthorized, setUnauthorized] = useState(false);
@@ -45,6 +46,7 @@ export default function PromoteTask() {
     const response = await getTask(taskId);
     if (response.success) {
       const task = response.data[0];
+      setCurrentTask(task);
 
       const appAcronym = task.Task_app_acronym;
       const taskState = task.Task_state;
@@ -171,6 +173,9 @@ export default function PromoteTask() {
         </Form.Item>
 
         <div>
+          {currentTask && <div>Task creator: {currentTask.Task_creator}</div>}
+          {currentTask && <div>Task owner: {currentTask.Task_owner}</div>}
+
           <h3>Notes</h3>
           <div
             style={{ paddingBottom: "3em", overflow: "auto", height: "200px" }}
