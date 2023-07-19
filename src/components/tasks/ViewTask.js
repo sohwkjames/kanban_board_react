@@ -16,6 +16,8 @@ export default function ViewTask() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [currentTask, setCurrentTask] = useState();
+
   // const [appAcronym, setAppAcronym ]
   const [form] = useForm();
 
@@ -29,6 +31,10 @@ export default function ViewTask() {
     if (response.success) {
       console.log("response", response);
       const task = response.data[0];
+
+      setCurrentTask(task);
+      console.log("task", task);
+
       form.setFieldsValue({
         taskName: task.Task_name,
         taskDescription: task.Task_description,
@@ -110,6 +116,8 @@ export default function ViewTask() {
         </Form.Item> */}
 
         <div style={{}}>
+          {currentTask && <div>Task creator: {currentTask.Task_creator}</div>}
+          {currentTask && <div>Task owner: {currentTask.Task_owner}</div>}
           <h3>Notes</h3>
           <div
             style={{ paddingBottom: "3em", overflow: "auto", height: "200px" }}

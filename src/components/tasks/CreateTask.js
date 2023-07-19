@@ -139,7 +139,16 @@ export default function CreateTask() {
           <Input disabled={true} />
         </Form.Item>
 
-        <Form.Item label="Task name" name="taskName">
+        <Form.Item
+          label="Task name"
+          name="taskName"
+          rules={[
+            {
+              required: true,
+              message: "Task name is required",
+            },
+          ]}
+        >
           <Input />
         </Form.Item>
 

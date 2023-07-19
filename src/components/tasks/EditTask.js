@@ -19,6 +19,7 @@ export default function EditTask() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [currentTask, setCurrentTask] = useState();
   const [editPlanDisabled, setEditPlanDisabled] = useState(true);
   const [loading, setLoading] = useState(true);
   const [unauthorized, setUnauthorized] = useState(false);
@@ -39,7 +40,8 @@ export default function EditTask() {
       const appAcronym = task.Task_app_acronym;
       const taskState = task.Task_state;
       const actionName = ACTION_PERMISSION_COLUMNS[taskState];
-
+      setCurrentTask(task);
+      console.log("task", task);
       if (taskState !== "open") {
         setEditPlanDisabled(true);
       } else {
@@ -148,6 +150,8 @@ export default function EditTask() {
         </Form.Item>
 
         <div>
+          {currentTask && <div>Task creator: {currentTask.Task_creator}</div>}
+          {currentTask && <div>Task owner: {currentTask.Task_owner}</div>}
           <h3>Notes</h3>
           <div
             style={{ paddingBottom: "3em", overflow: "auto", height: "200px" }}

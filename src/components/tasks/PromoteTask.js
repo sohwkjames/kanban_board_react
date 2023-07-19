@@ -50,6 +50,12 @@ export default function PromoteTask() {
       const taskState = task.Task_state;
       const actionName = ACTION_PERMISSION_COLUMNS[taskState];
 
+      if (taskState !== "done") {
+        setEditPlanDisabled(true);
+      } else {
+        setEditPlanDisabled(false);
+      }
+
       const permissionResponse = await checkUserCanPerformAction(
         appAcronym,
         actionName
