@@ -144,7 +144,7 @@ export default function DemoteTask() {
           name="taskName"
           // rules={[{ required: true, message: "Please input your username!" }]}
         >
-          <Input />
+          <Input disabled />
         </Form.Item>
 
         <Form.Item label="Task Description" name="taskDescription">
@@ -153,6 +153,7 @@ export default function DemoteTask() {
               minRows: 3,
               maxRows: 5,
             }}
+            disabled
           />
         </Form.Item>
 

@@ -120,9 +120,10 @@ export default function EditTask() {
         <Form.Item
           label="Task Name"
           name="taskName"
+
           // rules={[{ required: true, message: "Please input your username!" }]}
         >
-          <Input />
+          <Input disabled />
         </Form.Item>
         <Form.Item label="Task Description" name="taskDescription">
           <TextArea
@@ -130,6 +131,7 @@ export default function EditTask() {
               minRows: 3,
               maxRows: 5,
             }}
+            disabled
           />
         </Form.Item>
         <Form.Item label="Task Plan" name="taskPlan">
